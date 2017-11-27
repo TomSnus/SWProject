@@ -19,7 +19,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class OCforwardingCompany extends OCsingleIdEntity implements Serializable {
 
-      private String name;
+    private String name;
     private String description;
     @ManyToOne
     private OCaddress address;

@@ -61,8 +61,6 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
         this.forwardingCompany = forwardingCompany;
     }
     
-    
-    
     public Long getAmount() {
         return amount;
     }
@@ -103,9 +101,12 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
         this.orderPrice = orderPrice;
     }
 
+    public OCorder(Long amount, String fuelType, Long customerId){
+        
+    } 
+
     public OCorder() {
     }
-  
     
     
 }

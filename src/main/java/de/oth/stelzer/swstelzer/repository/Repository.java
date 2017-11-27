@@ -12,6 +12,7 @@ import java.util.List;
  * @author Tom
  */
 public interface Repository<T> {
+
     void add(T item);
 
     void add(Iterable<T> items);
@@ -22,6 +23,8 @@ public interface Repository<T> {
 
     void remove(Specification specification);
 
-     List<T> query(Specification specification);
+    List<T> query(Specification specification);
     
+    
+     
 }

@@ -6,23 +6,25 @@
 package de.oth.stelzer.swstelzer.service;
 
 import de.oth.stelzer.swstelzer.Student;
+import java.util.Random;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 /**
  *
- * @author Jon
+ * @author Tom
  */
 @RequestScoped
 public class StudierendenService {
+    Random rng = new Random();
+    
     @PersistenceContext(unitName="SWStelzer_pu")
     private EntityManager entityManager;
     @Transactional
     public Student immatrikulieren(Student student) {
-        student.setMatrikelNr(3001545);
+        student.setMatrikelNr(rng.nextInt());
         
         
         entityManager.persist(student);

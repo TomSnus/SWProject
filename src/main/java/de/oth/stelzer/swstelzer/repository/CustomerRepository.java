@@ -9,15 +9,19 @@ import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.service.CRMService;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import java.util.List;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author Tom
  */
+@RequestScoped
 public class CustomerRepository implements Repository<OCcustomer>{
-    @Inject
-    CRMService crmService;
+    @PersistenceContext(unitName="SWStelzer_pu")
+    private EntityManager entityManager;
     
     
     public CustomerRepository(){
@@ -26,7 +30,7 @@ public class CustomerRepository implements Repository<OCcustomer>{
     
     @Override
     public void add(OCcustomer item) {
-        crmService.addCustomer(item);
+        entityManager.persist(item);
     }
 
     @Override
@@ -41,16 +45,18 @@ public class CustomerRepository implements Repository<OCcustomer>{
 
     @Override
     public void remove(OCcustomer item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        entityManager.remove(item);
     }
 
     @Override
     public void remove(Specification specification) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     @Override
     public List<OCcustomer> query(Specification specification) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 }

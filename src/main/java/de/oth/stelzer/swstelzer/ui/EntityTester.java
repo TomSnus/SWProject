@@ -6,9 +6,17 @@
 package de.oth.stelzer.swstelzer.ui;
 
 import de.oth.stelzer.swstelzer.Student;
+import de.oth.stelzer.swstelzer.entity.OCaddress;
+import de.oth.stelzer.swstelzer.entity.OCcustomer;
+import de.oth.stelzer.swstelzer.entity.OCfuel;
+import de.oth.stelzer.swstelzer.entity.OCorder;
+import de.oth.stelzer.swstelzer.repository.CustomerRepository;
+import de.oth.stelzer.swstelzer.service.CRMService;
+import de.oth.stelzer.swstelzer.service.OrderService;
 import de.oth.stelzer.swstelzer.service.StudierendenService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Jon
+ * @author Ton
  */
 @WebServlet(name = "EntityTester", urlPatterns = {"/EntityTester"})
 public class EntityTester extends HttpServlet {
@@ -26,6 +34,13 @@ public class EntityTester extends HttpServlet {
     @Inject
     StudierendenService service;
     
+    @Inject
+    OrderService oService;
+    
+    @Inject
+    CRMService cService;
+    
+    CustomerRepository customerRep = new CustomerRepository();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -47,10 +62,11 @@ public class EntityTester extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet EntityTester at " + request.getContextPath() + "</h1>");
+            List<OCfuel> fuelList = oService.getAllPrices();
+            for(OCfuel f : fuelList){
+                out.println(f.getFuelType() + " : " + f.getPrice()+"\n");
+            }
             
-            Student s = new Student("test", "tester", 325485);
-            service.immatrikulieren(s);
-            out.println("Student immatrikuliert!!!");
             out.println("</body>");
             out.println("</html>");
         }

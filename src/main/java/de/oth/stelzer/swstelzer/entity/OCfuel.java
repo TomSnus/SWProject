@@ -13,7 +13,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Jon
+ * @author Tom
  */
 @Entity
 public class OCfuel extends OCsingleIdEntity implements Serializable {
@@ -21,5 +21,40 @@ public class OCfuel extends OCsingleIdEntity implements Serializable {
     private String fuelType;
     private String description;
     private double price;
+
+    public OCfuel(String liquid, String asuper, double d) {
+        this.description = liquid;
+        this.fuelType = asuper;
+        this.price = d;
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public OCfuel() {
+    }
+    
+    
         
 }

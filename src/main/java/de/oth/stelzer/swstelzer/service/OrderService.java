@@ -5,12 +5,15 @@
  */
 package de.oth.stelzer.swstelzer.service;
 
-import de.oth.stelzer.swstelzer.entity.OCcustomer;
+import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
+import de.oth.stelzer.swstelzer.repository.FuelRepository;
+import de.oth.stelzer.swstelzer.repository.OrderRepository;
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.jws.WebService;
-import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 /**
@@ -21,15 +24,34 @@ import javax.transaction.Transactional;
 @WebService(serviceName="OrderService")
 @RequestScoped
 public class OrderService {
-    @PersistenceContext(unitName="SWStelzer_pu")
-    private EntityManager entityManager;
+
     
-    
-    
+    private final OrderRepository orderRepo = new OrderRepository();
+    private final FuelRepository fuelRepo = new FuelRepository();
     @Transactional
     public OCorder order(OCorder order){
-       entityManager.persist(order);
+       orderRepo.add(order);
        return order;
     }
+
+    public void remove(OCorder item) {
+        orderRepo.remove(item);
+    }
     
+    @Transactional
+    public Double getPrice(String ft){
+
+        return fuelRepo.getPrice(ft);
+    }
+    
+     @Transactional
+    public List<OCfuel> getAllPrices(){
+
+        return fuelRepo.getAllPrices();
+    }
+    
+    @Transactional
+    public void insertFuel(OCfuel fuel) {
+        fuelRepo.insertFuel(fuel);
+    }
 }

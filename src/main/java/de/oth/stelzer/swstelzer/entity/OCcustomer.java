@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author Jon
+ * @author Tom
  */
 @Entity
 public class OCcustomer extends OCsingleIdEntity implements Serializable {

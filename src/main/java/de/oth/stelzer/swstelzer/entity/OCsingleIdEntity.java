@@ -63,5 +63,10 @@ public abstract class OCsingleIdEntity  implements Serializable{
     public String toString() {
         return "de.oth.stelzer.swstelzer.entities.OCsingleIdEntity[ id=" + id + " ]";
     }
+
+    public OCsingleIdEntity() {
+    }
+    
+    
     
 }

@@ -6,17 +6,25 @@
 package de.oth.stelzer.swstelzer.repository;
 
 import de.oth.stelzer.swstelzer.entity.OCorder;
+import de.oth.stelzer.swstelzer.service.CRMService;
+import de.oth.stelzer.swstelzer.service.OrderService;
 import java.util.List;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author Tom
  */
 public class OrderRepository implements Repository<OCorder>{
+    @PersistenceContext(unitName="SWStelzer_pu")
+    private EntityManager entityManager;
 
+    
     @Override
     public void add(OCorder item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        entityManager.persist(item);
     }
 
     @Override
@@ -31,7 +39,7 @@ public class OrderRepository implements Repository<OCorder>{
 
     @Override
     public void remove(OCorder item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        entityManager.remove(item);
     }
 
     @Override
@@ -43,5 +51,6 @@ public class OrderRepository implements Repository<OCorder>{
     public List<OCorder> query(Specification specification) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
     
 }
