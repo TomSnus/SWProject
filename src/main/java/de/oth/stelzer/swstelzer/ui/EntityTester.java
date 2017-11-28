@@ -8,9 +8,9 @@ package de.oth.stelzer.swstelzer.ui;
 import de.oth.stelzer.swstelzer.Student;
 import de.oth.stelzer.swstelzer.entity.OCaddress;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
+import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
-import de.oth.stelzer.swstelzer.repository.CustomerRepository;
 import de.oth.stelzer.swstelzer.service.CRMService;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import de.oth.stelzer.swstelzer.service.StudierendenService;
@@ -40,7 +40,6 @@ public class EntityTester extends HttpServlet {
     @Inject
     CRMService cService;
     
-    CustomerRepository customerRep = new CustomerRepository();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -62,11 +61,17 @@ public class EntityTester extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet EntityTester at " + request.getContextPath() + "</h1>");
+            out.println("Reading Prices");
+            oService.updateFuelPrice(26, 1.13);
             List<OCfuel> fuelList = oService.getAllPrices();
+            out.println("Prices read");
+            
             for(OCfuel f : fuelList){
                 out.println(f.getFuelType() + " : " + f.getPrice()+"\n");
             }
             
+            
+            out.println("josef is da");
             out.println("</body>");
             out.println("</html>");
         }

@@ -6,15 +6,24 @@
 package de.oth.stelzer.swstelzer.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Tom
  */
+@NamedQueries({
+    @NamedQuery(name="OCfuel.getAll",
+                query="SELECT o FROM OCfuel o"),
+    @NamedQuery(name="OCfuel.getSingleFuel",
+                query="SELECT o FROM OCfuel o WHERE o.fuelType=:queryParam"),
+    @NamedQuery(name="OCfuel.updatePrice",
+                query="UPDATE OCfuel SET price = :queryparam WHERE id = :queryparam2")
+})
 @Entity
 public class OCfuel extends OCsingleIdEntity implements Serializable {
     

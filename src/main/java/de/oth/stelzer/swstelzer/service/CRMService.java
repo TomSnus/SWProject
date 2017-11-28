@@ -6,7 +6,7 @@
 package de.oth.stelzer.swstelzer.service;
 
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
-import de.oth.stelzer.swstelzer.repository.CustomerRepository;
+import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.jws.WebService;
@@ -23,24 +23,34 @@ import javax.transaction.Transactional;
 @RequestScoped
 public class CRMService {
     
+    @PersistenceContext(unitName="SWStelzer_pu")
+    private EntityManager entityManager;
     
-    private final CustomerRepository customerRepository = new CustomerRepository();
-
+    @Transactional
     public OCcustomer getUserById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return entityManager.find(OCcustomer.class, id);
     }
-
+    
+    @Transactional
     public OCcustomer getCustomerById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    @Transactional
     public List<OCcustomer> getAllCustomers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Transactional
-    public void addCustomer(OCcustomer item) {
-        customerRepository.add(item);
+    public OCcustomer addCustomer(OCcustomer item) {
+        entityManager.persist(item);
+        return item;
+    }
+    
+    @Transactional
+    public OCforwardingCompany addForwardingCompany(OCforwardingCompany item) {
+        entityManager.persist(item);
+        return item;
     }
 
     public void remove(OCcustomer item) {
