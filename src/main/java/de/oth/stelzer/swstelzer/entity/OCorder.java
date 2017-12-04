@@ -21,7 +21,12 @@ import javax.persistence.NamedQuery;
 
 @NamedQueries({
     @NamedQuery(name="OCorder.getAll",
-                query="SELECT o FROM OCorder o")
+                query="SELECT o FROM OCorder o"),
+    @NamedQuery(name="OCorder.getStatus",
+                query="SELECT o FROM OCorder o WHERE o.statusDescription=:queryParam"),  
+    @NamedQuery(name="OCorder.updateStatus",
+                query="UPDATE OCorder SET status=:queryparam,"
+                        + " SSET statusDescription=:queryparam2 WHERE id = :queryparam3")      
 })
 
 @Entity
@@ -36,6 +41,7 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
     private OCfuel fuel;
     private OCstatus status;
     private OCforwardingCompany forwardingCompany;
+    
 
     public OCcustomer getCustomer() {
         return customer;
@@ -109,9 +115,7 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
         this.orderPrice = orderPrice;
     }
 
-    public OCorder(Long amount, String fuelType, Long customerId){
-        
-    } 
+
 
     public OCorder() {
     }
