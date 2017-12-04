@@ -5,10 +5,17 @@
  */
 package de.oth.stelzer.swstelzer.service;
 
+import de.oth.stelzer.swstelzer.entity.OCcustomer;
+import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
+import de.oth.stelzer.swstelzer.entity.OCstatus;
+import de.oth.stelzer.swstelzer.entity.OrderDTO;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,6 +37,8 @@ public class OrderService {
     @PersistenceContext(unitName="SWStelzer_pu")
     private EntityManager entityManager;
 
+//    @Inject
+//    CRMService crmService;
     
     @Transactional
     public Double getPrice(String ft){
@@ -61,9 +70,29 @@ public class OrderService {
     }
     
     @Transactional
-    public OCorder order(OCorder order){
-        entityManager.persist(order);
-        return order;
+    public OCorder createOrder(OrderDTO orderDTO){
+//        OCcustomer customer = crmService.getCustomerById(orderDTO.getCustomerId());
+//        OCfuel fuel = this.getFuelByType(orderDTO.getFuelType());
+//        OCforwardingCompany fwCompany = this.getForwardingCompanyById(43);
+//        Date dateTime = new Date();
+//        OCstatus status = OCstatus.PROCESSING;
+//        String statusDescription = "Order in process";
+//        Double orderPrice = calcPrice(orderDTO.getAmount(), fuel);
+//        
+//        //TODO Aufruf Josef
+//        
+//        OCorder order = new OCorder();
+//        order.setFuel(fuel);
+//        order.setCustomer(customer);
+//        order.setForwardingCompany(fwCompany);
+//        order.setOrderDate(dateTime);
+//        order.setStatus(status);
+//        order.setStatusDescription(statusDescription);
+//        order.setOrderPrice(orderPrice);
+        //TEST
+//        order.setTranspordId(154l);
+//        //entityManager.persist(order);
+        return null;
     }
     
     @Transactional
@@ -71,4 +100,40 @@ public class OrderService {
         TypedQuery query = entityManager.createNamedQuery("OCorder.getAll", OCorder.class);
         return query.getResultList();
     }
+    
+    @Transactional
+    public String getStatusDescription(int id){
+       TypedQuery query = entityManager.createNamedQuery("OCorder.getStatus", OCstatus.class);
+       OCorder order = (OCorder) query.getSingleResult();
+       return order.getStatusDescription();
+    }
+    
+    @Transactional
+    public void updateStatus(OCstatus status, String statusDesc, long id){
+        Query query = entityManager.createNamedQuery("OCorder.updateStatus");
+        query.setParameter("queryparam", status)
+                .setParameter("queryParam2", statusDesc)
+                .setParameter("queryparam3", id);
+        query.executeUpdate();
+    }
+    
+//    @Transactional
+//    private OCfuel getFuelByType(String fuelType) {
+//        TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
+//        OCfuel fuel = query.getSingleResult();
+//        
+//        return fuel;
+//    }
+    
+//    @Transactional
+//    private OCforwardingCompany getForwardingCompanyById(int id) {
+//        return entityManager.find(OCforwardingCompany.class, id);
+//    }
+
+//    @Transactional
+//    private Double calcPrice(Long amount, OCfuel fuel) {
+//        return amount * fuel.getPrice();
+//    }
+
+  
 }
