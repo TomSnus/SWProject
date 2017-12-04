@@ -27,14 +27,10 @@ public class CRMService {
     private EntityManager entityManager;
     
     @Transactional
-    public OCcustomer getUserById(Long id) {
+    public OCcustomer getCustomerById(Long id) {
        return entityManager.find(OCcustomer.class, id);
     }
     
-    @Transactional
-    public OCcustomer getCustomerById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     @Transactional
     public List<OCcustomer> getAllCustomers() {
@@ -52,7 +48,8 @@ public class CRMService {
         entityManager.persist(item);
         return item;
     }
-
+    
+    @Transactional
     public void remove(OCcustomer item) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
