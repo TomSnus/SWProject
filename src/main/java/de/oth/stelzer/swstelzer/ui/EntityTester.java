@@ -11,6 +11,7 @@ import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
+import de.oth.stelzer.swstelzer.entity.OrderDTO;
 import de.oth.stelzer.swstelzer.service.CRMService;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import de.oth.stelzer.swstelzer.service.StudierendenService;
@@ -62,15 +63,9 @@ public class EntityTester extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet EntityTester at " + request.getContextPath() + "</h1>");
             out.println("Reading Prices");
-            oService.updateFuelPrice(26, 1.13);
-            List<OCfuel> fuelList = oService.getAllPrices();
-            out.println("Prices read");
-            
-            for(OCfuel f : fuelList){
-                out.println(f.getFuelType() + " : " + f.getPrice()+"\n");
-            }
-            
-            
+          
+            oService.createOrder(new OrderDTO(1000l, "super", 39l));
+            out.println("order added");
             out.println("josef is da");
             out.println("</body>");
             out.println("</html>");
@@ -115,5 +110,7 @@ public class EntityTester extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+ 
 
 }

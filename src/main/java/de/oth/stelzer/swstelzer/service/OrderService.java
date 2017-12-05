@@ -37,8 +37,8 @@ public class OrderService {
     @PersistenceContext(unitName="SWStelzer_pu")
     private EntityManager entityManager;
 
-//    @Inject
-//    CRMService crmService;
+    @Inject
+    CRMService crmService;
     
     @Transactional
     public Double getPrice(String ft){
@@ -71,28 +71,29 @@ public class OrderService {
     
     @Transactional
     public OCorder createOrder(OrderDTO orderDTO){
-//        OCcustomer customer = crmService.getCustomerById(orderDTO.getCustomerId());
-//        OCfuel fuel = this.getFuelByType(orderDTO.getFuelType());
-//        OCforwardingCompany fwCompany = this.getForwardingCompanyById(43);
-//        Date dateTime = new Date();
-//        OCstatus status = OCstatus.PROCESSING;
-//        String statusDescription = "Order in process";
-//        Double orderPrice = calcPrice(orderDTO.getAmount(), fuel);
-//        
-//        //TODO Aufruf Josef
-//        
-//        OCorder order = new OCorder();
-//        order.setFuel(fuel);
-//        order.setCustomer(customer);
-//        order.setForwardingCompany(fwCompany);
-//        order.setOrderDate(dateTime);
-//        order.setStatus(status);
-//        order.setStatusDescription(statusDescription);
-//        order.setOrderPrice(orderPrice);
+        OCcustomer customer = crmService.getCustomerById(orderDTO.getCustomerId());
+        OCfuel fuel = this.getFuelByType(orderDTO.getFuelType());
+        OCforwardingCompany fwCompany = this.getForwardingCompanyById(43l);
+        Date dateTime = new Date();
+        OCstatus status = OCstatus.PROCESSING;
+        String statusDescription = "Order in process";
+        Double orderPrice = calcPrice(orderDTO.getAmount(), fuel);
+        
+        //TODO Aufruf Josef
+        
+        OCorder order = new OCorder();
+        order.setFuel(fuel);
+        order.setCustomer(customer);
+        order.setForwardingCompany(fwCompany);
+        order.setOrderDate(dateTime);
+        order.setStatus(status);
+        order.setStatusDescription(statusDescription);
+        order.setOrderPrice(orderPrice);
         //TEST
-//        order.setTranspordId(154l);
-//        //entityManager.persist(order);
-        return null;
+        order.setTranspordId(154l);
+        order.setAmount(orderDTO.getAmount());
+        entityManager.persist(order);
+        return order;
     }
     
     @Transactional
@@ -109,31 +110,30 @@ public class OrderService {
     }
     
     @Transactional
-    public void updateStatus(OCstatus status, String statusDesc, long id){
-        Query query = entityManager.createNamedQuery("OCorder.updateStatus");
-        query.setParameter("queryparam", status)
-                .setParameter("queryParam2", statusDesc)
-                .setParameter("queryparam3", id);
-        query.executeUpdate();
+    public void updateStatus(OCorder order, OCstatus status, String statusDesc){
+         order.setStatus(status);
+         order.setStatusDescription(statusDesc);
+         entityManager.merge(order);
     }
     
-//    @Transactional
-//    private OCfuel getFuelByType(String fuelType) {
-//        TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
-//        OCfuel fuel = query.getSingleResult();
-//        
-//        return fuel;
-//    }
+    @Transactional
+    private OCfuel getFuelByType(String fuelType) {
+        TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
+        query.setParameter("queryParam", fuelType);
+        OCfuel fuel = query.getSingleResult();
+        
+        return fuel;
+    }
     
-//    @Transactional
-//    private OCforwardingCompany getForwardingCompanyById(int id) {
-//        return entityManager.find(OCforwardingCompany.class, id);
-//    }
+    @Transactional
+    private OCforwardingCompany getForwardingCompanyById(Long id) {
+        return entityManager.find(OCforwardingCompany.class, id);
+    }
 
-//    @Transactional
-//    private Double calcPrice(Long amount, OCfuel fuel) {
-//        return amount * fuel.getPrice();
-//    }
+    @Transactional
+    private Double calcPrice(Long amount, OCfuel fuel) {
+        return amount * fuel.getPrice();
+    }
 
   
 }

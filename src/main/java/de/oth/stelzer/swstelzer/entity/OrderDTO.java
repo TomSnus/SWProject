@@ -6,6 +6,8 @@
 package de.oth.stelzer.swstelzer.entity;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
@@ -13,6 +15,8 @@ import java.io.Serializable;
  */
 
 public class OrderDTO implements Serializable {
+    
+   
     
     private Long amount;
     private String fuelType;
@@ -23,6 +27,11 @@ public class OrderDTO implements Serializable {
         this.fuelType = fuelType;
         this.customerId = customerId;
     }
+
+    public OrderDTO() {
+    }
+    
+    
 
     public Long getAmount() {
         return amount;
@@ -47,10 +56,7 @@ public class OrderDTO implements Serializable {
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
-    
-    
-    
-    
+
 
     
 

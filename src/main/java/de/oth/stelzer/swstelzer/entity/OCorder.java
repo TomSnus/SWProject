@@ -7,10 +7,12 @@ package de.oth.stelzer.swstelzer.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -23,10 +25,8 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name="OCorder.getAll",
                 query="SELECT o FROM OCorder o"),
     @NamedQuery(name="OCorder.getStatus",
-                query="SELECT o FROM OCorder o WHERE o.statusDescription=:queryParam"),  
-    @NamedQuery(name="OCorder.updateStatus",
-                query="UPDATE OCorder SET status=:queryparam,"
-                        + " SSET statusDescription=:queryparam2 WHERE id = :queryparam3")      
+                query="SELECT o FROM OCorder o WHERE o.statusDescription=:queryParam") 
+          
 })
 
 @Entity
@@ -37,9 +37,12 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
     private Date orderDate;
     private String statusDescription;
     private Double orderPrice;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private OCcustomer customer;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private OCfuel fuel;
     private OCstatus status;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private OCforwardingCompany forwardingCompany;
     
 

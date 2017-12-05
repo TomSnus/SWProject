@@ -20,9 +20,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name="OCfuel.getAll",
                 query="SELECT o FROM OCfuel o"),
     @NamedQuery(name="OCfuel.getSingleFuel",
-                query="SELECT o FROM OCfuel o WHERE o.fuelType=:queryParam"),
-    @NamedQuery(name="OCfuel.updatePrice",
-                query="UPDATE OCfuel SET price = :queryparam WHERE id = :queryparam2")
+                query="SELECT o FROM OCfuel o WHERE o.fuelType=:queryParam")
 })
 @Entity
 public class OCfuel extends OCsingleIdEntity implements Serializable {
