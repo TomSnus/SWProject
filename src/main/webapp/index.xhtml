@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Softwareentwicklung Projekt
+ Stelzer Thomas Matrikelnummer: 3001545
+ Oil Company
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jpc.org/jsf/html">
+    
+    
+    <h:head>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <title>TODO supply a title</title>
+
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div>
+            <h1>Oil Company</h1>
+            <h:form>
+            <ul class="menu">
+  <li><a href="/home" class="active"><span>Home</span></a></li>
+  <li><a href="order_index.xhtml"><span>Orders</span></a></li>
+  <li><a href="customer_index.xhtml"><span>Customers</span></a></li>
+  <li><a href="fw_index.xhtml"><span>Forwarding Companies</span></a></li>
+  <li><a href="fuel_index.xhtml"><span>Fuel</span></a></li>
+  <li><a href="/contact"><span>Contact</span></a></li>
+</ul>
+                <h:panelGrid columns="1">
+                    <h:commandButton value="Customers" action="customers_index.xhtml"/>
+                    <h:commandButton value="Fuel" action="fuels_index.xhtml"/>
+                </h:panelGrid>   
+                
+             
+            </h:form>
+        </div>
+      
+    </h:body>
+    
+    
+
+</html>
+
