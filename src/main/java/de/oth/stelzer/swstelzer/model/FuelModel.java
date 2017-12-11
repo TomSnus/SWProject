@@ -5,16 +5,22 @@
  */
 package de.oth.stelzer.swstelzer.model;
 
-import de.oth.stelzer.swstelzer.entity.OCaddress;
-import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
-import de.oth.stelzer.swstelzer.service.CRMService;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.ConverterException;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,17 +35,19 @@ public class FuelModel implements Serializable{
     private String fuelType;
     private String description;
     private Double price;
-
+    private String selectedItem;
+    private Double newPrice;
+    
     private Map<OCfuel, Boolean> checked = new HashMap<>();
-
+    private List<SelectItem> fuelList;
     @Inject
     private OrderService orderService;
 
-    public Collection<OCcustomer> getAllCustomers() {
+    public Collection<OCfuel> allFuels() {
         return this.orderService.getAllFuels();
     }
 
-    public String removeCustomers() {
+    public String removeFuel() {
         for (Map.Entry<OCfuel, Boolean> entry : checked.entrySet()) {
             if (entry.getValue()) {
                 orderService.removeFuel(entry.getKey());
@@ -49,9 +57,13 @@ public class FuelModel implements Serializable{
         //clean checked list
         checked.clear();
 
-        return "customers_index.xhtml";
+        return "fuel_index.xhtml";
     }
-
+    
+    public void updatePrice(){
+        
+    }
+    
     public String verifyFuel() {
         OCfuel newFuel = new OCfuel();
         newFuel.setDescription(this.description);
@@ -70,6 +82,18 @@ public class FuelModel implements Serializable{
         this.description = "";
         this.price = null;
         this.fuelType = "";
+    }
+    
+    public Object getAsObject(FacesContext context, UIComponent component, String submittedValue) {
+        if (submittedValue == null || submittedValue.isEmpty()) {
+            return null;
+        }
+
+        try {
+            return submittedValue;
+        } catch (NumberFormatException e) {
+            throw new ConverterException(new FacesMessage(String.format("%s is not a valid User ID", submittedValue)), e);
+        }
     }
 
     public String getDescription() {
@@ -104,6 +128,31 @@ public class FuelModel implements Serializable{
         this.checked = checked;
     }
 
+    public String getSelectedItem() {
+        return selectedItem;
+    }
+
+    public void setSelectedItem(String selectedItem) {
+        this.selectedItem = selectedItem;
+    }
+
+    public List<SelectItem> getFuelList() {
+        return fuelList;
+    }
+
+    public void setFuelList(List<SelectItem> fuelList) {
+        this.fuelList = fuelList;
+    }
+
+    public Double getNewPrice() {
+        return newPrice;
+    }
+
+    public void setNewPrice(Double newPrice) {
+        this.newPrice = newPrice;
+    }
+    
+    
    
     
     

@@ -8,22 +8,24 @@ package de.oth.stelzer.swstelzer.entity;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Tom
  */
+@NamedQueries({
+    @NamedQuery(name="OCcustomer.select",
+                query="SELECT c FROM OCcustomer AS c"),
+})
 @Entity
 public class OCcustomer extends OCsingleIdEntity implements Serializable {
     
     private String name;
     private String description;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     private OCaddress address;
 
     public String getName() {

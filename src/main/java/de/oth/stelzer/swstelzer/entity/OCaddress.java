@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 @Entity
 public class OCaddress extends OCsingleIdEntity implements Serializable {
 
+   private String zip;
    private String houseNumber;
    private String street;
    private String state;
@@ -47,6 +48,16 @@ public class OCaddress extends OCsingleIdEntity implements Serializable {
     public OCaddress() {
     }
 
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    
+    
     public OCaddress(String houseNumber, String street, String state) {
         this.houseNumber = houseNumber;
         this.street = street;

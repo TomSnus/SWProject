@@ -37,12 +37,12 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
     private Date orderDate;
     private String statusDescription;
     private Double orderPrice;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     private OCcustomer customer;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     private OCfuel fuel;
     private OCstatus status;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     private OCforwardingCompany forwardingCompany;
     
 

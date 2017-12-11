@@ -27,9 +27,9 @@ public class OCfuel extends OCsingleIdEntity implements Serializable {
     
     private String fuelType;
     private String description;
-    private double price;
+    private Double price;
 
-    public OCfuel(String liquid, String asuper, double d) {
+    public OCfuel(String liquid, String asuper, Double d) {
         this.description = liquid;
         this.fuelType = asuper;
         this.price = d;
@@ -51,11 +51,11 @@ public class OCfuel extends OCsingleIdEntity implements Serializable {
         this.description = description;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

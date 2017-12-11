@@ -11,6 +11,7 @@ import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
 import de.oth.stelzer.swstelzer.entity.OrderDTO;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -50,10 +51,9 @@ public class OrderService {
     }
     
      @Transactional
-    public List<OCfuel> getAllPrices(){
+    public Collection<OCfuel> getAllFuels(){
         TypedQuery query = entityManager.createNamedQuery("OCfuel.getAll", OCfuel.class);
         List<OCfuel> fuelList = query.getResultList();
-        System.out.println(fuelList);
         return fuelList;
        
     }
@@ -65,8 +65,9 @@ public class OrderService {
     
     @Transactional
     public void updateFuelPrice(long id, double price){
-       Query query = entityManager.createNamedQuery("OCfuel.updatePrice");
-       query.setParameter("queryparam", price).setParameter("queryparam2", id).executeUpdate();
+       OCfuel fuel = this.getFuelByType("super");
+       fuel.setPrice(price);
+       entityManager.merge(fuel);
     }
     
     @Transactional
@@ -134,6 +135,11 @@ public class OrderService {
     private Double calcPrice(Long amount, OCfuel fuel) {
         return amount * fuel.getPrice();
     }
+    
+    @Transactional
+    public void removeFuel(OCfuel item) {
+        item = entityManager.merge(item);
+        entityManager.remove(item);
+    }
 
-  
 }
