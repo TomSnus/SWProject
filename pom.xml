@@ -4,7 +4,7 @@
 
     <groupId>de.oth.stelzer</groupId>
     <artifactId>SWStelzer</artifactId>
-    <version>1.0</version>
+    <version>0.3</version>
     <packaging>war</packaging>
 
     <name>SWStelzer</name>
@@ -26,6 +26,12 @@
             <artifactId>hibernate-jpamodelgen-4.3.1.Final</artifactId>
             <version>SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>1.8.3</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
