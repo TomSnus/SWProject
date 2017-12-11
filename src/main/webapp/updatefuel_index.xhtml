@@ -12,26 +12,17 @@
         <h1>Fuel Manager</h1>
         <div> 
             <h:form>            
-                <h:dataTable var="fuel" value="#{fuelModel.allFuels()}">
-                    <h:column>    				
-                        <f:facet name="header">Type</f:facet>  
-                            #{fuel.fuelType}
-                    </h:column>
-
-                    <h:column>    				
-                        <f:facet name="header">Price</f:facet>  
-                            #{fuel.price}
-                    </h:column>
-
-                    <h:column>
-                        <h:selectBooleanCheckbox value="#{fuelModel.checked[fuel]}"/>
-                    </h:column>
-                </h:dataTable>
-                <h:commandButton value="Remove Fuel" action="#{fuelModel.removeFuel()}"/>
+                <h:selectOneMenu value="#{fuelModel.selectedItem}">
+                    <f:selectItems value="#{fuelModel.allFuels()}" var="fuel" itemValue="#{fuel.fuelType}" itemLabel="#{fuel.fuelType}"/>
+                     <h:outputLabel value="Description"/>
+                    <h:inputText value="#{fuelModel.newPrice}"/>
+                </h:selectOneMenu>
+                 <h:commandButton value="Update Fuelprice" action="#{fuelModel.updatePrice()}"/>
+                
             </h:form>
         </div>
         <div> 
-            <h3>Add a new Fuel</h3>
+            <h3>Add a new customer</h3>
             <h:form> 
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Fuel Type"/>
