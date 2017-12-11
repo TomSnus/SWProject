@@ -1,0 +1,111 @@
+/*
+ *  Softwareentwicklung Projekt
+ *  Stelzer Thomas Matrikelnummer: 3001545
+ *  Oil Company
+ */
+package de.oth.stelzer.swstelzer.model;
+
+import de.oth.stelzer.swstelzer.entity.OCaddress;
+import de.oth.stelzer.swstelzer.entity.OCcustomer;
+import de.oth.stelzer.swstelzer.entity.OCfuel;
+import de.oth.stelzer.swstelzer.service.CRMService;
+import de.oth.stelzer.swstelzer.service.OrderService;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+/**
+ *
+ * @author Tom
+ */
+@Named(value="fuelModel")
+@SessionScoped
+public class FuelModel implements Serializable{
+
+    private String fuelType;
+    private String description;
+    private Double price;
+
+    private Map<OCfuel, Boolean> checked = new HashMap<>();
+
+    @Inject
+    private OrderService orderService;
+
+    public Collection<OCcustomer> getAllCustomers() {
+        return this.orderService.getAllFuels();
+    }
+
+    public String removeCustomers() {
+        for (Map.Entry<OCfuel, Boolean> entry : checked.entrySet()) {
+            if (entry.getValue()) {
+                orderService.removeFuel(entry.getKey());
+            }
+        }
+
+        //clean checked list
+        checked.clear();
+
+        return "customers_index.xhtml";
+    }
+
+    public String verifyFuel() {
+        OCfuel newFuel = new OCfuel();
+        newFuel.setDescription(this.description);
+        newFuel.setFuelType(this.fuelType);
+        newFuel.setPrice(this.price);
+
+        if (!newFuel.getFuelType().equals("")) {
+            orderService.insertFuel(newFuel);
+            cleanAttributs();
+        }
+
+        return "fuel_index.xhtml";
+    }
+
+    private void cleanAttributs() {
+        this.description = "";
+        this.price = null;
+        this.fuelType = "";
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Map<OCfuel, Boolean> getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Map<OCfuel, Boolean> checked) {
+        this.checked = checked;
+    }
+
+   
+    
+    
+    
+}

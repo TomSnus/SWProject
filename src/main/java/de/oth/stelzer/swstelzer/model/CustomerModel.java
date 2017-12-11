@@ -44,7 +44,7 @@ public class CustomerModel implements Serializable{
     public String removeCustomers() {
         for (Map.Entry<OCcustomer, Boolean> entry : checked.entrySet()) {
             if (entry.getValue()) {
-                crmService.removeCustomer(crmService.getCustomerById(entry.getKey().getId()));
+                crmService.removeCustomer(entry.getKey());
             }
         }
 

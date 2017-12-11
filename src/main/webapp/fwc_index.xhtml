@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <ui:include src="resources/menu.xhtml" />
+    </h:head>
+    <h:body>
+        <h1>Forwarding Company Manager</h1>
+        <div> 
+            <h:form>            
+                <h:dataTable var="fwc" value="#{fwcModel.getAllForwardingCompanies()}">
+                    <h:column>    				
+                        <f:facet name="header">Nr.</f:facet>  
+                            #{fwc.id}
+                    </h:column>
+
+                    <h:column>    				
+                        <f:facet name="header">Vorname</f:facet>  
+                            #{fwc.name}
+                    </h:column>
+
+                    <h:column>
+                        <h:selectBooleanCheckbox value="#{fwcModel.checked[fwc]}"/>
+                    </h:column>
+                </h:dataTable>
+                <h:commandButton value="Remove Forwarding Company" action="#{fwcModel.removeForwardingCompanies()}"/>
+            </h:form>
+        </div>
+        <div> 
+            <h3>Add a new Forwarding Company</h3>
+            <h:form> 
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Name"/>
+                    <h:inputText value="#{fwcModel.name}"/>
+
+                    <h:outputLabel value="State"/>
+                    <h:inputText value="#{fwcModel.state}"/>
+
+                    <h:outputLabel value="Street"/>
+                    <h:inputText value="#{fwcModel.street}"/>
+
+                    <h:outputLabel value="Street number"/>
+                    <h:inputText value="#{fwcModel.streetNumber}"/>
+
+                    <h:outputLabel value="Zip"/>
+                    <h:inputText value="#{fwcModel.zip}"/>
+
+                    <h:commandButton value="Add ForwardingCompany" action="#{fwcModel.verifyCustomer()}"/>
+                </h:panelGrid>
+            </h:form>
+        </div>
+    </h:body>
+</html>
