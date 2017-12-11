@@ -84,17 +84,6 @@ public class FuelModel implements Serializable{
         this.fuelType = "";
     }
     
-    public Object getAsObject(FacesContext context, UIComponent component, String submittedValue) {
-        if (submittedValue == null || submittedValue.isEmpty()) {
-            return null;
-        }
-
-        try {
-            return submittedValue;
-        } catch (NumberFormatException e) {
-            throw new ConverterException(new FacesMessage(String.format("%s is not a valid User ID", submittedValue)), e);
-        }
-    }
 
     public String getDescription() {
         return description;

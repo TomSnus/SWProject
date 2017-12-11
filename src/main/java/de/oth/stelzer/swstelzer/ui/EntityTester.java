@@ -65,7 +65,7 @@ public class EntityTester extends HttpServlet {
             out.println("Reading Prices");
             for(OCcustomer c : cService.getAllCustomers())
                 out.println(c.getName() + " " + c.getId());
-            oService.updateFuelPrice(22, 1.13);
+            
             out.println("order added");
             out.println("josef is da");
             out.println("</body>");

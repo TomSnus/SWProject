@@ -50,7 +50,7 @@ public class OrderService {
         return fuelList.get(0).getPrice();
     }
     
-     @Transactional
+    @Transactional
     public Collection<OCfuel> getAllFuels(){
         TypedQuery query = entityManager.createNamedQuery("OCfuel.getAll", OCfuel.class);
         List<OCfuel> fuelList = query.getResultList();
@@ -64,9 +64,7 @@ public class OrderService {
     }
     
     @Transactional
-    public void updateFuelPrice(long id, double price){
-       OCfuel fuel = this.getFuelByType("super");
-       fuel.setPrice(price);
+    public void updateFuelPrice(OCfuel fuel){
        entityManager.merge(fuel);
     }
     
