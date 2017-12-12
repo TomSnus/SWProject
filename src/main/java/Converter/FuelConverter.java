@@ -7,19 +7,12 @@ package Converter;
 
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.service.OrderService;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Default;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  *

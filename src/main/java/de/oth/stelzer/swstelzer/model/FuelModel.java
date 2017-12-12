@@ -5,25 +5,20 @@
  */
 package de.oth.stelzer.swstelzer.model;
 
-import Converter.FuelConverter;
 import Helper.ErrorHandler;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.ConverterException;
 import javax.faces.model.SelectItem;
-import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -44,7 +39,6 @@ public class FuelModel implements Serializable {
     private Map<OCfuel, Boolean> checked = new HashMap<>();
     private List<SelectItem> fuelList;
     private OCfuel selectedFuel;
-    private String errorMessage;
 
     @Inject
     private OrderService orderService;
@@ -70,11 +64,8 @@ public class FuelModel implements Serializable {
         if (newPrice instanceof Double) {
             selectedFuel.setPrice(newPrice);
             orderService.updateFuelPrice(selectedFuel);
-            errorMessage = "";
         } else {
-
-            errorMessage = ErrorHandler.FUEL_ERROR;
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(errorMessage));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ErrorHandler.FUEL_ERROR));
         }
     }
 
@@ -102,10 +93,8 @@ public class FuelModel implements Serializable {
         Double price = (Double) value;
         if ((price < 0.5) || (price >= 2.0)) {
             ((UIInput) comp).setValid(false);
-
             FacesMessage message = new FacesMessage(ErrorHandler.FUEL_ERROR);
             context.addMessage(comp.getClientId(context), message);
-
         }
     }
 
@@ -164,13 +153,4 @@ public class FuelModel implements Serializable {
     public void setSelectedFuel(OCfuel selectedFuel) {
         this.selectedFuel = selectedFuel;
     }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
 }

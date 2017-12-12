@@ -27,9 +27,9 @@ import javax.inject.Named;
  *
  * @author Tom
  */
-@Named 
+@Named
 @SessionScoped
-public class CompanyModel implements Serializable{
+public class CompanyModel implements Serializable {
 
     private String name;
     private String description;
@@ -49,7 +49,7 @@ public class CompanyModel implements Serializable{
     }
 
     public String removeCustomers() {
-        for (Map.Entry<? extends OCcompany,Boolean> entry : checked.entrySet()) {
+        for (Map.Entry<? extends OCcompany, Boolean> entry : checked.entrySet()) {
             if (entry.getValue()) {
                 crmService.removeCustomer((OCcustomer) entry.getKey());
             }
@@ -60,13 +60,13 @@ public class CompanyModel implements Serializable{
 
         return "refresh";
     }
-    
-     public Collection<OCforwardingCompany> getAllForwardingCompanies() {
+
+    public Collection<OCforwardingCompany> getAllForwardingCompanies() {
         return this.crmService.getAllForwardingCompanies();
     }
 
     public String removeForwardingCompanies() {
-        for (Map.Entry<? extends OCcompany,Boolean> entry : checked.entrySet()) {
+        for (Map.Entry<? extends OCcompany, Boolean> entry : checked.entrySet()) {
             if (entry.getValue()) {
                 crmService.removeForwardingCompany((OCforwardingCompany) entry.getKey());
             }
@@ -84,44 +84,41 @@ public class CompanyModel implements Serializable{
         newAddress.setStreet(this.street);
         newAddress.setStreet(this.streetNumber);
         newAddress.setZip(this.zip);
-        
-        if(company.equals("customer")) {
-           return verifyCustomer(newAddress);
-        } else if(company.equals("fwc")) {
-            return verifyFWC(newAddress);
-        }
-        
 
-        return "refresh";
+        switch (company) {
+            case "customer":
+                return verifyCustomer(newAddress);
+            case "fwc":
+                return verifyFWC(newAddress);
+            default:
+                return "refresh";
+        }
     }
-    
+
     public String verifyFWC(OCaddress newAddress) {
         OCforwardingCompany newCompany = new OCforwardingCompany();
         newCompany.setName(this.name);
         newCompany.setAddress(newAddress);
 
-        if (!newCompany.getName().equals("")) {
-            crmService.addForwardingCompany(newCompany);
-            cleanAttributs();
-        }
+        crmService.addCompany(newCompany);
+        cleanAttributs();
 
         return "refresh";
     }
-    
+
     public String verifyCustomer(OCaddress newAddress) {
         OCcustomer newCustomer = new OCcustomer();
         newCustomer.setName(this.name);
         newCustomer.setDescription(this.description);
         newCustomer.setAddress(newAddress);
-            
-        if (!newCustomer.getName().equals("")) {
-            crmService.addCustomer(newCustomer);
-            cleanAttributs();
-        } 
+        
+        crmService.addCompany(newCustomer);
+//        crmService.addCustomer(newCustomer);
+        cleanAttributs();
 
         return "refresh";
     }
-    
+
     private void cleanAttributs() {
         this.name = "";
         this.description = "";
@@ -130,15 +127,13 @@ public class CompanyModel implements Serializable{
         this.streetNumber = "";
         this.zip = null;
     }
-    
-     public void validate(FacesContext context, UIComponent comp, Object value) {
+
+    public void validate(FacesContext context, UIComponent comp, Object value) {
         String inputName = (String) value;
         if (inputName.length() < 5) {
             ((UIInput) comp).setValid(false);
-
             FacesMessage message = new FacesMessage(ErrorHandler.CUSTOMER_ERROR);
             context.addMessage(comp.getClientId(context), message);
-
         }
     }
 
@@ -197,7 +192,5 @@ public class CompanyModel implements Serializable{
     public void setChecked(Map<OCcustomer, Boolean> checked) {
         this.checked = checked;
     }
-    
-    
-    
+
 }

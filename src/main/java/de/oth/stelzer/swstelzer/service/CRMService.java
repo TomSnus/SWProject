@@ -6,6 +6,7 @@
 package de.oth.stelzer.swstelzer.service;
 
 import de.oth.stelzer.swstelzer.entity.OCaddress;
+import de.oth.stelzer.swstelzer.entity.OCcompany;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import java.util.Collection;
@@ -37,23 +38,10 @@ public class CRMService {
     @Transactional
     @WebMethod(exclude = true)
     public List<OCcustomer> getAllCustomers() {
-        //TypedQuery<OCcustomer> query = entityManager.createQuery("SELECT c FROM OCcustomer AS c", OCcustomer.class);
         TypedQuery<OCcustomer> query = entityManager.createNamedQuery("OCcustomer.select", OCcustomer.class);
         List<OCcustomer> list = query.getResultList();
         
         return list;
-    }
-    
-    @Transactional
-    public OCcustomer addCustomer(OCcustomer item) {
-        entityManager.persist(item);
-        return item;
-    }
-    
-    @Transactional
-    public OCforwardingCompany addForwardingCompany(OCforwardingCompany item) {
-        entityManager.persist(item);
-        return item;
     }
     
     @Transactional
@@ -80,9 +68,14 @@ public class CRMService {
     public void removeForwardingCompany(OCforwardingCompany fwc) {
         fwc = entityManager.merge(fwc);
         OCaddress address = entityManager.merge(fwc.getAddress());
-        
         entityManager.remove(fwc);
         entityManager.remove(address);
+    }
+
+    @Transactional
+    public OCcompany addCompany(OCcompany company) {
+        entityManager.persist(company);
+        return company;
     }
     
 }
