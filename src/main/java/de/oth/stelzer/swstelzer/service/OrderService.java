@@ -42,12 +42,12 @@ public class OrderService {
     CRMService crmService;
     
     @Transactional
-    public Double getPrice(String ft){
+    public OCfuel getFuelByType(String ft){
         String queryParam = ft;
         TypedQuery query =  entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
         query.setParameter("queryParam", queryParam);
         List<OCfuel> fuelList = query.getResultList();
-        return fuelList.get(0).getPrice();
+        return fuelList.get(0);
     }
     
     @Transactional
@@ -115,14 +115,14 @@ public class OrderService {
          entityManager.merge(order);
     }
     
-    @Transactional
-    private OCfuel getFuelByType(String fuelType) {
-        TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
-        query.setParameter("queryParam", fuelType);
-        OCfuel fuel = query.getSingleResult();
-        
-        return fuel;
-    }
+//    @Transactional
+//    private OCfuel getFuelByType(String fuelType) {
+//        TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
+//        query.setParameter("queryParam", fuelType);
+//        OCfuel fuel = query.getSingleResult();
+//        
+//        return fuel;
+//    }
     
     @Transactional
     private OCforwardingCompany getForwardingCompanyById(Long id) {
@@ -139,5 +139,6 @@ public class OrderService {
         item = entityManager.merge(item);
         entityManager.remove(item);
     }
+
 
 }

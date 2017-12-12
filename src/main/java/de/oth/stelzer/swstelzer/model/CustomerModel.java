@@ -51,7 +51,7 @@ public class CustomerModel implements Serializable{
         //clean checked list
         checked.clear();
 
-        return "customers_index.xhtml";
+        return "customer";
     }
 
     public String verifyCustomer() {
@@ -71,7 +71,7 @@ public class CustomerModel implements Serializable{
             cleanAttributs();
         }
 
-        return "customers_index.xhtml";
+        return "customer";
     }
 
     private void cleanAttributs() {

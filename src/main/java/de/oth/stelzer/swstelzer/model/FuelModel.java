@@ -5,6 +5,7 @@
  */
 package de.oth.stelzer.swstelzer.model;
 
+import Converter.FuelConverter;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import java.io.Serializable;
@@ -40,9 +41,11 @@ public class FuelModel implements Serializable{
     
     private Map<OCfuel, Boolean> checked = new HashMap<>();
     private List<SelectItem> fuelList;
+    private OCfuel selectedFuel;
     @Inject
     private OrderService orderService;
-
+    
+    
     public Collection<OCfuel> allFuels() {
         return this.orderService.getAllFuels();
     }
@@ -57,7 +60,7 @@ public class FuelModel implements Serializable{
         //clean checked list
         checked.clear();
 
-        return "fuel_index.xhtml";
+        return "fuel";
     }
     
     public void updatePrice(){
@@ -75,7 +78,7 @@ public class FuelModel implements Serializable{
             cleanAttributs();
         }
 
-        return "fuel_index.xhtml";
+        return "fuel";
     }
 
     private void cleanAttributs() {
@@ -140,6 +143,16 @@ public class FuelModel implements Serializable{
     public void setNewPrice(Double newPrice) {
         this.newPrice = newPrice;
     }
+
+    public OCfuel getSelectedFuel() {
+        return selectedFuel;
+    }
+
+    public void setSelectedFuel(OCfuel selectedFuel) {
+        this.selectedFuel = selectedFuel;
+    }
+
+    
     
     
    

@@ -12,13 +12,16 @@
         <h1>Fuel Manager</h1>
         <div> 
             <h:form>            
-                <h:selectOneMenu value="#{fuelModel.selectedItem}">
-                    <f:selectItems value="#{fuelModel.allFuels()}" var="fuel" itemValue="#{fuel.fuelType}" itemLabel="#{fuel.fuelType}"/>
-                     <h:outputLabel value="Description"/>
+
+                <h:selectOneMenu value="#{fuelModel.selectedFuel}">
+                    <f:converter binding="#{fuelConverter}"/>
+                    <f:selectItems value="#{fuelModel.allFuels()}"/>
+                     <h:outputLabel value="New Price"/>
                     <h:inputText value="#{fuelModel.newPrice}"/>
                 </h:selectOneMenu>
-                 <h:commandButton value="Update Fuelprice" action="#{fuelModel.updatePrice()}"/>
-                
+
+                <h:commandButton value="Update Fuelprice" action="#{fuelModel.updatePrice()}"/>
+
             </h:form>
         </div>
         <div> 

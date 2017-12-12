@@ -51,7 +51,7 @@ public class ForwardingCompanyModel implements Serializable{
         //clean checked list
         checked.clear();
 
-        return "fwc_index.xhtml";
+        return "fwc";
     }
 
     public String verifyCustomer() {
@@ -70,7 +70,7 @@ public class ForwardingCompanyModel implements Serializable{
             cleanAttributs();
         }
 
-        return "fwc_index.xhtml";
+        return "fwc";
     }
 
     private void cleanAttributs() {

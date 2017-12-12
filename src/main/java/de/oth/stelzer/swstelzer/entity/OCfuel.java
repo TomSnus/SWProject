@@ -61,6 +61,12 @@ public class OCfuel extends OCsingleIdEntity implements Serializable {
 
     public OCfuel() {
     }
+
+    @Override
+    public String toString() {
+        return fuelType + ", current price=" + price;
+    }
+    
     
     
         
