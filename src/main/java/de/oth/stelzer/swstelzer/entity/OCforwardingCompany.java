@@ -21,36 +21,14 @@ import javax.persistence.NamedQuery;
                 query="SELECT c FROM OCforwardingCompany AS c"),
 })
 @Entity
-public class OCforwardingCompany extends OCsingleIdEntity implements Serializable {
-
-    private String name;
-    @ManyToOne(cascade = {CascadeType.ALL})
-    private OCaddress address;
+public class OCforwardingCompany extends OCcompany implements Serializable {
 
     public OCforwardingCompany(String name, OCaddress address) {
-        this.name = name;
-        this.address = address;
+        this.setName(name);
+        this.setAddress(address);
     }
 
     public OCforwardingCompany() {
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public OCaddress getAddress() {
-        return address;
-    }
-
-    public void setAddress(OCaddress address) {
-        this.address = address;
-    }
-    
-    
-    
+ 
 }

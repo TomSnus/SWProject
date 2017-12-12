@@ -6,6 +6,7 @@
 package de.oth.stelzer.swstelzer.model;
 
 import Converter.FuelConverter;
+import Helper.ErrorHandler;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.faces.model.SelectItem;
@@ -29,23 +31,24 @@ import javax.inject.Named;
  *
  * @author Tom
  */
-@Named(value="fuelModel")
+@Named(value = "fuelModel")
 @SessionScoped
-public class FuelModel implements Serializable{
+public class FuelModel implements Serializable {
 
+    //Attributes
     private String fuelType;
     private String description;
     private Double price;
-    private String selectedItem;
     private Double newPrice;
-    
+
     private Map<OCfuel, Boolean> checked = new HashMap<>();
     private List<SelectItem> fuelList;
     private OCfuel selectedFuel;
+    private String errorMessage;
+
     @Inject
     private OrderService orderService;
-    
-    
+
     public Collection<OCfuel> allFuels() {
         return this.orderService.getAllFuels();
     }
@@ -62,11 +65,19 @@ public class FuelModel implements Serializable{
 
         return "fuel";
     }
-    
-    public void updatePrice(){
-        
+
+    public void updatePrice() {
+        if (newPrice instanceof Double) {
+            selectedFuel.setPrice(newPrice);
+            orderService.updateFuelPrice(selectedFuel);
+            errorMessage = "";
+        } else {
+
+            errorMessage = ErrorHandler.FUEL_ERROR;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(errorMessage));
+        }
     }
-    
+
     public String verifyFuel() {
         OCfuel newFuel = new OCfuel();
         newFuel.setDescription(this.description);
@@ -86,7 +97,17 @@ public class FuelModel implements Serializable{
         this.price = null;
         this.fuelType = "";
     }
-    
+
+    public void validatePrice(FacesContext context, UIComponent comp, Object value) {
+        Double price = (Double) value;
+        if ((price < 0.5) || (price >= 2.0)) {
+            ((UIInput) comp).setValid(false);
+
+            FacesMessage message = new FacesMessage(ErrorHandler.FUEL_ERROR);
+            context.addMessage(comp.getClientId(context), message);
+
+        }
+    }
 
     public String getDescription() {
         return description;
@@ -120,14 +141,6 @@ public class FuelModel implements Serializable{
         this.checked = checked;
     }
 
-    public String getSelectedItem() {
-        return selectedItem;
-    }
-
-    public void setSelectedItem(String selectedItem) {
-        this.selectedItem = selectedItem;
-    }
-
     public List<SelectItem> getFuelList() {
         return fuelList;
     }
@@ -152,11 +165,12 @@ public class FuelModel implements Serializable{
         this.selectedFuel = selectedFuel;
     }
 
-    
-    
-    
-   
-    
-    
-    
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
 }

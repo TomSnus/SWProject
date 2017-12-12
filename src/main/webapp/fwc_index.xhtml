@@ -12,7 +12,7 @@
         <h1>Forwarding Company Manager</h1>
         <div> 
             <h:form>            
-                <h:dataTable var="fwc" value="#{fwcModel.getAllForwardingCompanies()}">
+                <h:dataTable var="fwc" value="#{companyModel.getAllForwardingCompanies()}">
                     <h:column>    				
                         <f:facet name="header">Nr.</f:facet>  
                             #{fwc.id}
@@ -24,10 +24,10 @@
                     </h:column>
 
                     <h:column>
-                        <h:selectBooleanCheckbox value="#{fwcModel.checked[fwc]}"/>
+                        <h:selectBooleanCheckbox value="#{companyModel.checked[fwc]}"/>
                     </h:column>
                 </h:dataTable>
-                <h:commandButton value="Remove Forwarding Company" action="#{fwcModel.removeForwardingCompanies()}"/>
+                <h:commandButton value="Remove Forwarding Company" action="#{companyModel.removeForwardingCompanies()}"/>
             </h:form>
         </div>
         <div> 
@@ -35,21 +35,21 @@
             <h:form> 
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Name"/>
-                    <h:inputText value="#{fwcModel.name}"/>
+                    <h:inputText required="true" validator="#{companyModel.validate}" value="#{companyModel.name}"/>
 
                     <h:outputLabel value="State"/>
-                    <h:inputText value="#{fwcModel.state}"/>
+                    <h:inputText value="#{companyModel.state}"/>
 
                     <h:outputLabel value="Street"/>
-                    <h:inputText value="#{fwcModel.street}"/>
+                    <h:inputText value="#{companyModel.street}"/>
 
                     <h:outputLabel value="Street number"/>
-                    <h:inputText value="#{fwcModel.streetNumber}"/>
+                    <h:inputText value="#{companyModel.streetNumber}"/>
 
                     <h:outputLabel value="Zip"/>
-                    <h:inputText value="#{fwcModel.zip}"/>
+                    <h:inputText value="#{companyModel.zip}"/>
 
-                    <h:commandButton value="Add ForwardingCompany" action="#{fwcModel.verifyCustomer()}"/>
+                    <h:commandButton value="Add ForwardingCompany" action="#{companyModel.verifyCompany('fwc')}"/>
                 </h:panelGrid>
             </h:form>
         </div>

@@ -12,7 +12,7 @@
         <h1>Customer Manager</h1>
         <div> 
             <h:form>            
-                <h:dataTable var="customer" value="#{customerModel.allCustomers}">
+                <h:dataTable var="customer" value="#{companyModel.allCustomers}">
                     <h:column>    				
                         <f:facet name="header">Nr.</f:facet>  
                             #{customer.id}
@@ -24,10 +24,10 @@
                     </h:column>
 
                     <h:column>
-                        <h:selectBooleanCheckbox value="#{customerModel.checked[customer]}"/>
+                        <h:selectBooleanCheckbox value="#{companyModel.checked[customer]}"/>
                     </h:column>
                 </h:dataTable>
-                <h:commandButton value="Remove Customer" action="#{customerModel.removeCustomers()}"/>
+                <h:commandButton value="Remove Customer" action="#{companyModel.removeCustomers()}"/>
             </h:form>
         </div>
         <div> 
@@ -35,21 +35,21 @@
             <h:form> 
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Name"/>
-                    <h:inputText value="#{customerModel.name}"/>
+                    <h:inputText required="true" validator="#{companyModel.validate}" value="#{companyModel.name}"/>
 
                     <h:outputLabel value="State"/>
-                    <h:inputText value="#{customerModel.state}"/>
+                    <h:inputText value="#{companyModel.state}"/>
 
                     <h:outputLabel value="Street"/>
-                    <h:inputText value="#{customerModel.street}"/>
+                    <h:inputText value="#{companyModel.street}"/>
 
                     <h:outputLabel value="Street number"/>
-                    <h:inputText value="#{customerModel.streetNumber}"/>
+                    <h:inputText value="#{companyModel.streetNumber}"/>
 
                     <h:outputLabel value="Zip"/>
-                    <h:inputText value="#{customerModel.zip}"/>
+                    <h:inputText value="#{companyModel.zip}"/>
 
-                    <h:commandButton value="Add Customer" action="#{customerModel.verifyCustomer()}"/>
+                    <h:commandButton value="Add Customer" action="#{companyModel.verifyCompany('customer')}"/>
                 </h:panelGrid>
             </h:form>
         </div>

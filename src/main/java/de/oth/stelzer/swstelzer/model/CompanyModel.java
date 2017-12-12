@@ -1,18 +1,25 @@
 /*
  *  Softwareentwicklung Projekt
  *  Stelzer Thomas Matrikelnummer: 3001545
- *  Oil Company
+ *  Oil CompanyModel
  */
 package de.oth.stelzer.swstelzer.model;
 
+import Helper.ErrorHandler;
 import de.oth.stelzer.swstelzer.entity.OCaddress;
+import de.oth.stelzer.swstelzer.entity.OCcompany;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
+import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.service.CRMService;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,7 +29,7 @@ import javax.inject.Named;
  */
 @Named 
 @SessionScoped
-public class CustomerModel implements Serializable{
+public class CompanyModel implements Serializable{
 
     private String name;
     private String description;
@@ -32,7 +39,7 @@ public class CustomerModel implements Serializable{
     private String street;
     private String streetNumber;
 
-    private Map<OCcustomer, Boolean> checked = new HashMap<>();
+    private Map<? extends OCcompany, Boolean> checked = new HashMap<>();
 
     @Inject
     private CRMService crmService;
@@ -42,38 +49,79 @@ public class CustomerModel implements Serializable{
     }
 
     public String removeCustomers() {
-        for (Map.Entry<OCcustomer, Boolean> entry : checked.entrySet()) {
+        for (Map.Entry<? extends OCcompany,Boolean> entry : checked.entrySet()) {
             if (entry.getValue()) {
-                crmService.removeCustomer(entry.getKey());
+                crmService.removeCustomer((OCcustomer) entry.getKey());
             }
         }
 
         //clean checked list
         checked.clear();
 
-        return "customer";
+        return "refresh";
+    }
+    
+     public Collection<OCforwardingCompany> getAllForwardingCompanies() {
+        return this.crmService.getAllForwardingCompanies();
     }
 
-    public String verifyCustomer() {
+    public String removeForwardingCompanies() {
+        for (Map.Entry<? extends OCcompany,Boolean> entry : checked.entrySet()) {
+            if (entry.getValue()) {
+                crmService.removeForwardingCompany((OCforwardingCompany) entry.getKey());
+            }
+        }
+
+        //clean checked list
+        checked.clear();
+
+        return "refresh";
+    }
+
+    public String verifyCompany(String company) {
         OCaddress newAddress = new OCaddress();
         newAddress.setState(this.state);
         newAddress.setStreet(this.street);
         newAddress.setStreet(this.streetNumber);
         newAddress.setZip(this.zip);
+        
+        if(company.equals("customer")) {
+           return verifyCustomer(newAddress);
+        } else if(company.equals("fwc")) {
+            return verifyFWC(newAddress);
+        }
+        
 
+        return "refresh";
+    }
+    
+    public String verifyFWC(OCaddress newAddress) {
+        OCforwardingCompany newCompany = new OCforwardingCompany();
+        newCompany.setName(this.name);
+        newCompany.setAddress(newAddress);
+
+        if (!newCompany.getName().equals("")) {
+            crmService.addForwardingCompany(newCompany);
+            cleanAttributs();
+        }
+
+        return "refresh";
+    }
+    
+    public String verifyCustomer(OCaddress newAddress) {
         OCcustomer newCustomer = new OCcustomer();
         newCustomer.setName(this.name);
         newCustomer.setDescription(this.description);
         newCustomer.setAddress(newAddress);
-
+            
         if (!newCustomer.getName().equals("")) {
             crmService.addCustomer(newCustomer);
             cleanAttributs();
-        }
+        } 
 
-        return "customer";
+        return "refresh";
     }
-
+    
     private void cleanAttributs() {
         this.name = "";
         this.description = "";
@@ -81,6 +129,17 @@ public class CustomerModel implements Serializable{
         this.street = "";
         this.streetNumber = "";
         this.zip = null;
+    }
+    
+     public void validate(FacesContext context, UIComponent comp, Object value) {
+        String inputName = (String) value;
+        if (inputName.length() < 5) {
+            ((UIInput) comp).setValid(false);
+
+            FacesMessage message = new FacesMessage(ErrorHandler.CUSTOMER_ERROR);
+            context.addMessage(comp.getClientId(context), message);
+
+        }
     }
 
     public String getName() {
@@ -131,7 +190,7 @@ public class CustomerModel implements Serializable{
         this.streetNumber = streetNumber;
     }
 
-    public Map<OCcustomer, Boolean> getChecked() {
+    public Map<? extends OCcompany, Boolean> getChecked() {
         return checked;
     }
 

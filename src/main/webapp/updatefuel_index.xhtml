@@ -9,36 +9,19 @@
         <ui:include src="resources/menu.xhtml" />
     </h:head>
     <h:body>
-        <h1>Fuel Manager</h1>
+        <h1>Fuel Price Manager</h1>
         <div> 
             <h:form>            
+                <h:panelGrid style="margin-top:20px" columns="3">
+                    <h:selectOneMenu value="#{fuelModel.selectedFuel}">
+                        <f:converter binding="#{fuelConverter}"/>
+                        <f:selectItems value="#{fuelModel.allFuels()}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="New Price: "/> 
 
-                <h:selectOneMenu value="#{fuelModel.selectedFuel}">
-                    <f:converter binding="#{fuelConverter}"/>
-                    <f:selectItems value="#{fuelModel.allFuels()}"/>
-                     <h:outputLabel value="New Price"/>
-                    <h:inputText value="#{fuelModel.newPrice}"/>
-                </h:selectOneMenu>
-
-                <h:commandButton value="Update Fuelprice" action="#{fuelModel.updatePrice()}"/>
-
-            </h:form>
-        </div>
-        <div> 
-            <h3>Add a new customer</h3>
-            <h:form> 
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="Fuel Type"/>
-                    <h:inputText value="#{fuelModel.fuelType}"/>
-
-                    <h:outputLabel value="Price"/>
-                    <h:inputText value="#{fuelModel.price}"/>
-
-                    <h:outputLabel value="Description"/>
-                    <h:inputText value="#{fuelModel.description}"/>
-
-
-                    <h:commandButton value="Add Fuel" action="#{fuelModel.verifyFuel()}"/>
+                    <h:inputText id="newPrice" required="true" value="#{fuelModel.newPrice}" validator="#{fuelModel.validatePrice}" />
+                    <h:commandButton value="Update Fuelprice" action="#{fuelModel.updatePrice()}"/>
+                    <h:outputLabel value="#{fuelModel.errorMessage}"/>
                 </h:panelGrid>
             </h:form>
         </div>

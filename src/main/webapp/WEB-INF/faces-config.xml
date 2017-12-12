@@ -8,7 +8,7 @@
         <description>Navigation rules for Customer</description>
         <from-view-id>customers_index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>customer</from-outcome>
+            <from-outcome>refresh</from-outcome>
             <to-view-id>customers_index.xhtml</to-view-id>
         </navigation-case>    
     </navigation-rule>
@@ -18,7 +18,7 @@
         <description>Navigation rules for FWC</description>
         <from-view-id>fwc_index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>fwc</from-outcome>
+            <from-outcome>refresh</from-outcome>
             <to-view-id>fwc_index.xhtml</to-view-id>
         </navigation-case>    
     </navigation-rule>
