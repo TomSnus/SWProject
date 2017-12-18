@@ -89,14 +89,14 @@ public class FuelModel implements Serializable {
         this.fuelType = "";
     }
 
-    public void validatePrice(FacesContext context, UIComponent comp, Object value) {
-        Double price = (Double) value;
-        if ((price < 0.5) || (price >= 2.0)) {
-            ((UIInput) comp).setValid(false);
-            FacesMessage message = new FacesMessage(ErrorHandler.FUEL_ERROR);
-            context.addMessage(comp.getClientId(context), message);
-        }
-    }
+//    public void validatePrice(FacesContext context, UIComponent comp, Object value) {
+//        Double price = (Double) value;
+//        if ((price < 0.5) || (price >= 2.0)) {
+//            ((UIInput) comp).setValid(false);
+//            FacesMessage message = new FacesMessage(ErrorHandler.FUEL_ERROR);
+//            context.addMessage(comp.getClientId(context), message);
+//        }
+//    }
 
     public String getDescription() {
         return description;

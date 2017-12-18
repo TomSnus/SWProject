@@ -128,14 +128,14 @@ public class CompanyModel implements Serializable {
         this.zip = null;
     }
 
-    public void validate(FacesContext context, UIComponent comp, Object value) {
-        String inputName = (String) value;
-        if (inputName.length() < 5) {
-            ((UIInput) comp).setValid(false);
-            FacesMessage message = new FacesMessage(ErrorHandler.CUSTOMER_ERROR);
-            context.addMessage(comp.getClientId(context), message);
-        }
-    }
+//    public void validate(FacesContext context, UIComponent comp, Object value) {
+//        String inputName = (String) value;
+//        if (inputName.length() < 5) {
+//            ((UIInput) comp).setValid(false);
+//            FacesMessage message = new FacesMessage(ErrorHandler.CUSTOMER_ERROR);
+//            context.addMessage(comp.getClientId(context), message);
+//        }
+//    }
 
     public String getName() {
         return name;

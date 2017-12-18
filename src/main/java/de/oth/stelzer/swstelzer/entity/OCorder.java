@@ -5,8 +5,14 @@
  */
 package de.oth.stelzer.swstelzer.entity;
 
+import de.oth.stelzer.swstelzer.model.OrderModel;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,18 +26,18 @@ import javax.persistence.NamedQuery;
  *
  * @author Tom
  */
-
 @NamedQueries({
-    @NamedQuery(name="OCorder.getAll",
-                query="SELECT o FROM OCorder o"),
-    @NamedQuery(name="OCorder.getStatus",
-                query="SELECT o FROM OCorder o WHERE o.statusDescription=:queryParam") 
-          
+    @NamedQuery(name = "OCorder.getAll",
+            query = "SELECT o FROM OCorder o")
+    ,
+    @NamedQuery(name = "OCorder.getStatus",
+            query = "SELECT o FROM OCorder o WHERE o.statusDescription=:queryParam")
+
 })
 
 @Entity
 public class OCorder extends OCsingleIdEntity implements Serializable {
-    
+
     private Long amount;
     private Long transpordId;
     private Date orderDate;
@@ -44,7 +50,6 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
     private OCstatus status;
     @ManyToOne(cascade = {CascadeType.ALL})
     private OCforwardingCompany forwardingCompany;
-    
 
     public OCcustomer getCustomer() {
         return customer;
@@ -77,7 +82,7 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
     public void setForwardingCompany(OCforwardingCompany forwardingCompany) {
         this.forwardingCompany = forwardingCompany;
     }
-    
+
     public Long getAmount() {
         return amount;
     }
@@ -96,6 +101,7 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
 
     public Date getOrderDate() {
         return orderDate;
+
     }
 
     public void setOrderDate(Date orderDate) {
@@ -118,10 +124,7 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
         this.orderPrice = orderPrice;
     }
 
-
-
     public OCorder() {
     }
-    
-    
+
 }

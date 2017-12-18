@@ -35,7 +35,11 @@
             <h:form> 
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Name"/>
-                    <h:inputText required="true" validator="#{companyModel.validate}" value="#{companyModel.name}"/>
+                    <h:inputText
+                        required="true" 
+                        value="#{companyModel.name}" >
+                        <f:validateLength minimum="5" maximum="15" />
+                     </h:inputText>
 
                     <h:outputLabel value="State"/>
                     <h:inputText value="#{companyModel.state}"/>

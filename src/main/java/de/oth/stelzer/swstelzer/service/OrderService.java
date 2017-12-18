@@ -81,9 +81,7 @@ public class OrderService {
         //TODO Aufruf Josef
         
         OCorder order = new OCorder();
-        order.setFuel(fuel);
-        order.setCustomer(customer);
-        order.setForwardingCompany(fwCompany);
+
         order.setOrderDate(dateTime);
         order.setStatus(status);
         order.setStatusDescription(statusDescription);
@@ -91,12 +89,19 @@ public class OrderService {
         //TEST
         order.setTranspordId(154l);
         order.setAmount(orderDTO.getAmount());
+       
+        entityManager.persist(customer);
+        entityManager.persist(fwCompany);
+        entityManager.persist(fuel);
+                order.setFuel(fuel);
+        order.setCustomer(customer);
+        order.setForwardingCompany(fwCompany);
         entityManager.persist(order);
         return order;
     }
     
     @Transactional
-    public List<OCorder> getAllOrders(){
+    public Collection<OCorder> getAllOrders(){
         TypedQuery query = entityManager.createNamedQuery("OCorder.getAll", OCorder.class);
         return query.getResultList();
     }
