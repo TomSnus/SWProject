@@ -12,7 +12,6 @@
         <h1>Fuel Price Manager</h1>
         <div> 
             <h:form>     
-                <h:messages globalOnly="false" />
                 <h:panelGrid style="margin-top:20px" columns="3">
                     <h:selectOneMenu value="#{fuelModel.selectedFuel}">
                         <f:converter binding="#{fuelConverter}"/>
@@ -20,11 +19,16 @@
                     </h:selectOneMenu>
                     <h:outputLabel value="New Price: "/> 
 
-                    <h:inputText id="newPrice" required="true" value="#{fuelModel.newPrice}" validator="#{fuelModel.validatePrice}" />
-                    <h:message for="newPrice" style="color:red" />
+                    <h:inputText 
+                        id="NewPrice" 
+                        required="true" 
+                        value="#{fuelModel.newPrice}" >
+                                 <f:validateDoubleRange minimum="0.5" maximum="2.0" />
+                    </h:inputText>
+                    
 
                     <h:commandButton value="Update Fuelprice" action="#{fuelModel.updatePrice()}"/>
-                    <h:outputLabel value="#{fuelModel.errorMessage}"/>
+
                 </h:panelGrid>
             </h:form>
         </div>
