@@ -109,7 +109,7 @@ public class CompanyModel implements Serializable {
     public String verifyCustomer(OCaddress newAddress) {
         OCcustomer newCustomer = new OCcustomer();
         newCustomer.setName(this.name);
-        newCustomer.setDescription(this.description);
+       // newCustomer.setDescription(this.description);
         newCustomer.setAddress(newAddress);
         
         crmService.addCompany(newCustomer);

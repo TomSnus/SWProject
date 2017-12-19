@@ -5,6 +5,7 @@
  */
 package de.oth.stelzer.swstelzer.service;
 
+import de.oth.stelzer.swstelzer.delivery.DeliveryOrder;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
@@ -23,6 +24,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import javax.xml.ws.WebServiceRef;
 
 /**
  *
@@ -32,6 +34,7 @@ import javax.transaction.Transactional;
 @WebService(serviceName="OrderService")
 @RequestScoped
 public class OrderService {
+
     
 
         
@@ -40,6 +43,9 @@ public class OrderService {
 
     @Inject
     CRMService crmService;
+    
+    @Inject
+    DeliveryService delService;
     
     @Transactional
     public OCfuel getFuelByType(String ft){
@@ -77,19 +83,15 @@ public class OrderService {
         OCstatus status = OCstatus.PROCESSING;
         String statusDescription = "Order in process";
         Double orderPrice = calcPrice(orderDTO.getAmount(), fuel);
-        
-        //TODO Aufruf Josef
-        
         OCorder order = new OCorder();
-
+        // Aufruf Josef
+        DeliveryOrder result = delService.createDeliveryorder(customer, orderDTO);
+        order.setTranspordId(result.getId());
         order.setOrderDate(dateTime);
         order.setStatus(status);
         order.setStatusDescription(statusDescription);
         order.setOrderPrice(orderPrice);
-        //TEST
-        order.setTranspordId(154l);
         order.setAmount(orderDTO.getAmount());
-       
         entityManager.persist(customer);
         entityManager.persist(fwCompany);
         entityManager.persist(fuel);

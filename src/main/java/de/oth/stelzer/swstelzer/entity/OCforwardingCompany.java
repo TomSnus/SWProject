@@ -24,8 +24,8 @@ import javax.persistence.NamedQuery;
 public class OCforwardingCompany extends OCcompany implements Serializable {
 
     public OCforwardingCompany(String name, OCaddress address) {
-        this.setName(name);
-        this.setAddress(address);
+        super.setName(name);
+        super.setAddress(address);
     }
 
     public OCforwardingCompany() {

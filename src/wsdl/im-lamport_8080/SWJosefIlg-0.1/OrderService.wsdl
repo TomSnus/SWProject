@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.swjosefilg.sw.othr.de/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="OrderServiceService" targetNamespace="http://service.swjosefilg.sw.othr.de/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.swjosefilg.sw.othr.de/" elementFormDefault="unqualified" targetNamespace="http://service.swjosefilg.sw.othr.de/" version="1.0">
+
+  <xs:element name="getDeliveryStatus" type="tns:getDeliveryStatus"/>
+
+  <xs:element name="getDeliveryStatusResponse" type="tns:getDeliveryStatusResponse"/>
+
+  <xs:element name="orderTransport" type="tns:orderTransport"/>
+
+  <xs:element name="orderTransportResponse" type="tns:orderTransportResponse"/>
+
+  <xs:complexType name="orderTransport">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:deliveryOrder"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deliveryOrder">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="collectionDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="customer" type="tns:customer"/>
+          <xs:element minOccurs="0" name="deliveryAddress" type="tns:address"/>
+          <xs:element minOccurs="0" name="deliveryDate" type="xs:dateTime"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="oilTanker" nillable="true" type="tns:oilTanker"/>
+          <xs:element minOccurs="0" name="orderDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="product" type="tns:product"/>
+          <xs:element minOccurs="0" name="status" type="tns:status"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="singleIdEntity">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="customer">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="address" type="tns:address"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="address">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="state" type="xs:string"/>
+          <xs:element minOccurs="0" name="street" type="xs:string"/>
+          <xs:element minOccurs="0" name="streetNumber" type="xs:string"/>
+          <xs:element minOccurs="0" name="zip" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="oilTanker">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="capacityLiter" type="xs:float"/>
+          <xs:element name="isUsed" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="product">
+    <xs:complexContent>
+      <xs:extension base="tns:singleIdEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="amountLiter" type="xs:float"/>
+          <xs:element minOccurs="0" name="fuelType" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="orderTransportResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:deliveryOrder"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDeliveryStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:deliveryOrder"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDeliveryStatusResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:status"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="status">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="COLLECTION"/>
+      <xs:enumeration value="DELIVERY"/>
+      <xs:enumeration value="FINISHED"/>
+      <xs:enumeration value="PROCESS"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="orderTransport">
+    <wsdl:part element="tns:orderTransport" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDeliveryStatus">
+    <wsdl:part element="tns:getDeliveryStatus" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="orderTransportResponse">
+    <wsdl:part element="tns:orderTransportResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDeliveryStatusResponse">
+    <wsdl:part element="tns:getDeliveryStatusResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OrderService">
+    <wsdl:operation name="orderTransport">
+      <wsdl:input message="tns:orderTransport" name="orderTransport">
+    </wsdl:input>
+      <wsdl:output message="tns:orderTransportResponse" name="orderTransportResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeliveryStatus">
+      <wsdl:input message="tns:getDeliveryStatus" name="getDeliveryStatus">
+    </wsdl:input>
+      <wsdl:output message="tns:getDeliveryStatusResponse" name="getDeliveryStatusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrderServiceServiceSoapBinding" type="tns:OrderService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="orderTransport">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="orderTransport">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="orderTransportResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeliveryStatus">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDeliveryStatus">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDeliveryStatusResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrderServiceService">
+    <wsdl:port binding="tns:OrderServiceServiceSoapBinding" name="OrderServicePort">
+      <soap:address location="http://im-lamport:8080/SWJosefIlg-0.1/OrderService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

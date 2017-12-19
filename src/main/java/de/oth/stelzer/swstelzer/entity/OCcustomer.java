@@ -23,28 +23,31 @@ import javax.persistence.NamedQuery;
 @Entity
 public class OCcustomer extends OCcompany implements Serializable {
     
-    private String description;
+//    private String description;
+//
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    public OCcustomer(String name, String description, OCaddress address) {
-        this.setName(name);
-        this.description = description;
-        this.setAddress(address);
-    }
+//    public OCcustomer(String name, String description, OCaddress address) {
+//        super.setName(name);
+//        this.description = description;
+//        super.setAddress(address);
+//    }
 
     public OCcustomer() {
     }
     
-    
+    public  OCcustomer(String name, OCaddress address) {
+        super.setAddress(address);
+        super.setName(name);
+    }
     
     
     
