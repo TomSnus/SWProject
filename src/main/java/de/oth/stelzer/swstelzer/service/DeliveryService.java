@@ -11,7 +11,7 @@ import de.oth.stelzer.swstelzer.delivery.DeliveryOrder;
 import de.oth.stelzer.swstelzer.delivery.Product;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OrderDTO;
-import iface.IDeliveryService;
+import de.oth.stelzer.swstelzer.iface.IDeliveryService;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.jws.WebService;

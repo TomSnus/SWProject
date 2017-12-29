@@ -12,11 +12,13 @@ import de.oth.stelzer.swstelzer.delivery.Product;
 import de.oth.stelzer.swstelzer.delivery.Status;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OrderDTO;
-import iface.IDeliveryService;
+import de.oth.stelzer.swstelzer.iface.IDeliveryService;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
+import javax.jws.WebService;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -25,6 +27,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *
  * @author Tom
  */
+@WebService(serviceName="TestDeliveryService")
+@RequestScoped
 public class TestDeliveryService implements IDeliveryService, Serializable {
 
     @Override
@@ -56,7 +60,8 @@ public class TestDeliveryService implements IDeliveryService, Serializable {
             deliveryOrder.setOrderDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(gc));
             deliveryOrder.setDeliveryDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(gc));
             deliveryOrder.setCollectionDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(gc));
-
+            //Id
+            deliveryOrder.setId(1337);
         } catch (DatatypeConfigurationException ex) {
             Logger.getLogger(TestDeliveryService.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

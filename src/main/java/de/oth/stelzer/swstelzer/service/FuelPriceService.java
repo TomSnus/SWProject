@@ -28,9 +28,12 @@ public class FuelPriceService {
     OrderService oService;
     
     private Random rng = new Random();
+
+    /**
+     * Chaning Price every 10 min to random value between 0.5 and 2.0
+     */
     @Schedule(second="*", minute="*/10", hour="*", persistent=false)
     public void changeFuelPrice() {
-        DecimalFormat df = new DecimalFormat("0.00");
         List<OCfuel> fuelList = new ArrayList<>(oService.getAllFuels());
         Double newPrice = ThreadLocalRandom.current().nextDouble(0.5,2.0); 
         OCfuel fuel = fuelList.get(rng.nextInt(fuelList.size()));

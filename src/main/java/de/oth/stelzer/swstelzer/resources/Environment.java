@@ -10,5 +10,5 @@ package de.oth.stelzer.swstelzer.resources;
  * @author Tom
  */
 public enum Environment {
-    
+    PROD, TEST
 }
