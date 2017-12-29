@@ -21,6 +21,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -40,6 +42,7 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
 
     private Long amount;
     private Long transpordId;
+    @Temporal(TemporalType.DATE)
     private Date orderDate;
     private String statusDescription;
     private Double orderPrice;
