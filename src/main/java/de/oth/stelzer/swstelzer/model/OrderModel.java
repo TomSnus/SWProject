@@ -5,7 +5,6 @@
  */
 package de.oth.stelzer.swstelzer.model;
 
-import Helper.ErrorHandler;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;

@@ -3,7 +3,7 @@
  *  Stelzer Thomas Matrikelnummer: 3001545
  *  Oil Company
  */
-package Converter;
+package de.oth.stelzer.swstelzer.converter;
 
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.service.OrderService;

@@ -11,6 +11,8 @@ import de.oth.stelzer.swstelzer.delivery.DeliveryOrder;
 import de.oth.stelzer.swstelzer.delivery.Product;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OrderDTO;
+import iface.IDeliveryService;
+import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceRef;
@@ -21,7 +23,7 @@ import javax.xml.ws.WebServiceRef;
  */
 @WebService(serviceName="DeliveryService")
 @RequestScoped
-public class DeliveryService {
+public class DeliveryService implements IDeliveryService, Serializable{
     
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/SWJosefIlg-0.1/OrderService.wsdl")
     private de.oth.stelzer.swstelzer.delivery.OrderServiceService service;

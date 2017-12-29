@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -75,7 +76,7 @@ public class OrderService {
     }
     
     @Transactional
-    public OCorder createOrder(OrderDTO orderDTO){
+    public OCorder createOrder(@WebParam(name = "orderDTO") OrderDTO orderDTO){
         OCcustomer customer = crmService.getCustomerById(orderDTO.getCustomerId());
         OCfuel fuel = this.getFuelByType(orderDTO.getFuelType());
         OCforwardingCompany fwCompany = this.getForwardingCompanyById(43l);

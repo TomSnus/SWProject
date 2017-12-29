@@ -5,7 +5,6 @@
  */
 package de.oth.stelzer.swstelzer.model;
 
-import Helper.ErrorHandler;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import java.io.Serializable;
@@ -61,12 +60,8 @@ public class FuelModel implements Serializable {
     }
 
     public void updatePrice() {
-        if (newPrice instanceof Double) {
             selectedFuel.setPrice(newPrice);
             orderService.updateFuelPrice(selectedFuel);
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ErrorHandler.FUEL_ERROR));
-        }
     }
 
     public String verifyFuel() {
