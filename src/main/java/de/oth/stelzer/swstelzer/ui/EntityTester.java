@@ -11,8 +11,9 @@ import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
-import de.oth.stelzer.swstelzer.entity.OrderDTO;
+import de.oth.stelzer.swstelzer.service.OrderDTO;
 import de.oth.stelzer.swstelzer.service.CRMService;
+import de.oth.stelzer.swstelzer.service.FuelDTO;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import de.oth.stelzer.swstelzer.service.StudierendenService;
 import java.io.IOException;
@@ -65,6 +66,9 @@ public class EntityTester extends HttpServlet {
             OrderDTO odto;
             odto = new OrderDTO(25l, "diesel", 39l);
             oService.createOrder(odto);
+            
+            OCfuel f = oService.getFuelByDTO(new FuelDTO("super"));
+            out.println(f.getFuelType() + " " + f.getPrice());
             out.println("</body>");
             out.println("</html>");
         }

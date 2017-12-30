@@ -11,7 +11,6 @@ import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
-import de.oth.stelzer.swstelzer.entity.OrderDTO;
 import de.oth.stelzer.swstelzer.resources.Environment;
 import java.util.Collection;
 import java.util.Date;
@@ -61,7 +60,7 @@ public class OrderService {
 
     /**
      * Delivers all available Fuels
-     * 
+     *
      * @return Collection, containing all Fuels
      */
     @Transactional
@@ -81,9 +80,25 @@ public class OrderService {
         entityManager.merge(fuel);
     }
 
+    @Transactional
+    public OCfuel getFuelByDTO(FuelDTO fdto) {
+        List<OCfuel> fuelList = null;
+        try {
+            String queryParam = fdto.getFueltype();
+            TypedQuery query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
+            query.setParameter("queryParam", queryParam);
+            fuelList = query.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Fueltype not found", e);
+        } finally {
+            return fuelList.get(0);
+        }
+
+    }
+
     /**
      * This Method gets called by the Petrol Station to create a Order
-     * 
+     *
      * @param orderDTO
      * @return OCorder Object
      */
@@ -142,7 +157,7 @@ public class OrderService {
     }
 
 //    @Transactional
-//    private OCfuel getFuelByType(String fuelType) {
+//    private OCfuel getFuelByDTO(String fuelType) {
 //        TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
 //        query.setParameter("queryParam", fuelType);
 //        OCfuel fuel = query.getSingleResult();

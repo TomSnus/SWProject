@@ -10,7 +10,6 @@ import de.oth.stelzer.swstelzer.delivery.Customer;
 import de.oth.stelzer.swstelzer.delivery.DeliveryOrder;
 import de.oth.stelzer.swstelzer.delivery.Product;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
-import de.oth.stelzer.swstelzer.entity.OrderDTO;
 import de.oth.stelzer.swstelzer.iface.IDeliveryService;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
@@ -27,6 +26,7 @@ public class DeliveryService implements IDeliveryService, Serializable{
     
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/SWJosefIlg-0.1/OrderService.wsdl")
     private de.oth.stelzer.swstelzer.delivery.OrderServiceService service;
+    @Override
     public DeliveryOrder createDeliveryorder(OCcustomer customer, OrderDTO orderDTO){
         
         DeliveryOrder result = null;

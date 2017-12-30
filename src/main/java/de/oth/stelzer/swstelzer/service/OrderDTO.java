@@ -3,7 +3,7 @@
  *  Stelzer Thomas Matrikelnummer: 3001545
  *  Oil Company
  */
-package de.oth.stelzer.swstelzer.entity;
+package de.oth.stelzer.swstelzer.service;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
