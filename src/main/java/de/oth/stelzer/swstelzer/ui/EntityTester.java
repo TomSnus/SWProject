@@ -65,8 +65,8 @@ public class EntityTester extends HttpServlet {
             out.println("<h1>Servlet EntityTester at " + request.getContextPath() + "</h1>");
             OrderDTO odto;
             odto = new OrderDTO(25l, "diesel", 39l);
-            oService.createOrder(odto);
-            
+            OCorder order = oService.createOrder(odto);
+            out.println(order.getId() + " " + order.getTranspordId() + " status:" + order.getStatus());
             OCfuel f = oService.getFuelByDTO(new FuelDTO("super"));
             out.println(f.getFuelType() + " " + f.getPrice());
             out.println("</body>");

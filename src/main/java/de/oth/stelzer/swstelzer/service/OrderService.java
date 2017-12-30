@@ -35,7 +35,7 @@ import javax.xml.ws.WebServiceRef;
 @RequestScoped
 public class OrderService {
 
-    Environment environment = Environment.TEST;
+    Environment environment = Environment.PROD;
 
     @PersistenceContext(unitName = "SWStelzer_pu")
     private EntityManager entityManager;
@@ -104,36 +104,42 @@ public class OrderService {
      */
     @Transactional
     public OCorder createOrder(@WebParam(name = "orderDTO") OrderDTO orderDTO) {
-        OCcustomer customer = crmService.getCustomerById(orderDTO.getCustomerId());
-        OCfuel fuel = this.getFuelByType(orderDTO.getFuelType());
-        OCforwardingCompany fwCompany = this.getForwardingCompanyById(43l);
-        Date dateTime = new Date();
-        OCstatus status = OCstatus.PROCESSING;
-        String statusDescription = "Order in process";
-        Double orderPrice = calcPrice(orderDTO.getAmount(), fuel);
         OCorder order = new OCorder();
-        // Aufruf Josef
-        DeliveryOrder result = null;
-        if (environment.equals(Environment.PROD)) {
-            result = delService.createDeliveryorder(customer, orderDTO);
-        } else if (environment.equals(Environment.TEST)) {
-            result = testDelService.createDeliveryorder(customer, orderDTO);
+        try {
+            OCcustomer customer = crmService.getCustomerById(orderDTO.getCustomerId());
+            OCfuel fuel = this.getFuelByType(orderDTO.getFuelType());
+            OCforwardingCompany fwCompany = this.getForwardingCompanyById(43l);
+            Date dateTime = new Date();
+            OCstatus status = OCstatus.PROCESSING;
+            String statusDescription = "Order in process";
+            Double orderPrice = calcPrice(orderDTO.getAmount(), fuel);
+            // Call Partner 
+            DeliveryOrder result = null;
+            if (environment.equals(Environment.PROD)) {
+                result = delService.createDeliveryorder(customer, orderDTO);
+            } else if (environment.equals(Environment.TEST)) {
+                result = testDelService.createDeliveryorder(customer, orderDTO);
+            }
+            //order.setTranspordId(result.getId());
+            order.setTranspordId(1337l);
+            order.setOrderDate(dateTime);
+            order.setStatus(status);
+            order.setStatusDescription(statusDescription);
+            order.setOrderPrice(orderPrice);
+            order.setAmount(orderDTO.getAmount());
+            entityManager.persist(customer);
+            entityManager.persist(fwCompany);
+            entityManager.persist(fuel);
+            order.setFuel(fuel);
+            order.setCustomer(customer);
+            order.setForwardingCompany(fwCompany);
+            entityManager.persist(order);
+        } catch (Exception e) {
+            throw new RuntimeException("Order could not be created", e);
+        } finally {
+            return order;
         }
 
-        order.setTranspordId(result.getId());
-        order.setOrderDate(dateTime);
-        order.setStatus(status);
-        order.setStatusDescription(statusDescription);
-        order.setOrderPrice(orderPrice);
-        order.setAmount(orderDTO.getAmount());
-        entityManager.persist(customer);
-        entityManager.persist(fwCompany);
-        entityManager.persist(fuel);
-        order.setFuel(fuel);
-        order.setCustomer(customer);
-        order.setForwardingCompany(fwCompany);
-        entityManager.persist(order);
-        return order;
     }
 
     @Transactional
