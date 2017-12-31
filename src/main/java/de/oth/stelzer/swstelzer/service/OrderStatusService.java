@@ -16,6 +16,9 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.xml.ws.WebServiceRef;
 import de.oth.stelzer.swstelzer.delivery.OrderServiceService;
+import de.oth.stelzer.swstelzer.delivery.Status;
+import de.oth.stelzer.swstelzer.entity.OCstatus;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -29,24 +32,32 @@ public class OrderStatusService {
     @Inject
     OrderService oService;
 
-    private Random rng = new Random();
-
     /**
      * Updating Status of not finished orders every 10 min
      */
     @Schedule(second = "*", minute = "*/10", hour = "*", persistent = false)
     public void updateOrderStatus() {
         List<OCorder> orderList = new ArrayList<>(oService.getAllOrders());
-
+        orderList = orderList
+                .stream()
+                .filter(p -> !p.getStatus().equals(OCstatus.FINISHED))
+                .collect(Collectors.toList());
         try { // Call Web Service Operation
             de.oth.stelzer.swstelzer.delivery.OrderService port = service.getOrderServicePort();
             // TODO initialize WS operation arguments here
             de.oth.stelzer.swstelzer.delivery.DeliveryOrder dOrder = new de.oth.stelzer.swstelzer.delivery.DeliveryOrder();
-            
-            de.oth.stelzer.swstelzer.delivery.Status result = port.getDeliveryStatus(dOrder);
-            System.out.println("Result = " + result);
+            for(OCorder order : orderList){
+                OCstatus newStatus = OCstatus.SHIPPED;
+                dOrder.setId(order.getTranspordId());
+                de.oth.stelzer.swstelzer.delivery.Status result = port.getDeliveryStatus(dOrder);
+                order.setStatusDescription(result.name());
+                if(result.equals(Status.FINISHED)) {
+                    newStatus = OCstatus.FINISHED; 
+                }
+                oService.updateStatus(order, newStatus, result.name());
+            }
         } catch (Exception ex) {
-            // TODO handle custom exceptions here
+            throw new RuntimeException("Error: Could not receive Order Status", ex);
         }
 
     }

@@ -162,14 +162,14 @@ public class OrderService {
         entityManager.merge(order);
     }
 
-//    @Transactional
-//    private OCfuel getFuelByDTO(String fuelType) {
-//        TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
-//        query.setParameter("queryParam", fuelType);
-//        OCfuel fuel = query.getSingleResult();
-//        
-//        return fuel;
-//    }
+    @Transactional
+    private OCfuel getFuelByDTO(String fuelType) {
+        TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
+        query.setParameter("queryParam", fuelType);
+        OCfuel fuel = query.getSingleResult();
+        
+        return fuel;
+    }
     @Transactional
     private OCforwardingCompany getForwardingCompanyById(Long id) {
         return entityManager.find(OCforwardingCompany.class, id);
@@ -177,7 +177,8 @@ public class OrderService {
 
     @Transactional
     private Double calcPrice(Long amount, OCfuel fuel) {
-        return amount * fuel.getPrice();
+        Double value = amount * fuel.getPrice();
+        return (double) Math.round(value *100)/100; //output with 2 decimal places
     }
 
     @Transactional
