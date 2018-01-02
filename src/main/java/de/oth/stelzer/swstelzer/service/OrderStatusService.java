@@ -44,7 +44,6 @@ public class OrderStatusService {
                 .collect(Collectors.toList());
         try { // Call Web Service Operation
             de.oth.stelzer.swstelzer.delivery.OrderService port = service.getOrderServicePort();
-            // TODO initialize WS operation arguments here
             de.oth.stelzer.swstelzer.delivery.DeliveryOrder dOrder = new de.oth.stelzer.swstelzer.delivery.DeliveryOrder();
             for(OCorder order : orderList){
                 OCstatus newStatus = OCstatus.SHIPPED;
