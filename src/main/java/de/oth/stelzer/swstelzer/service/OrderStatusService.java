@@ -47,7 +47,7 @@ public class OrderStatusService {
             de.oth.stelzer.swstelzer.delivery.DeliveryOrder dOrder = new de.oth.stelzer.swstelzer.delivery.DeliveryOrder();
             for(OCorder order : orderList){
                 OCstatus newStatus = OCstatus.SHIPPED;
-                dOrder.setId(order.getTranspordId());
+                dOrder.setId(order.getTransportId());
                 de.oth.stelzer.swstelzer.delivery.Status result = port.getDeliveryStatus(dOrder);
                 order.setStatusDescription(result.name());
                 if(result.equals(Status.FINISHED)) {

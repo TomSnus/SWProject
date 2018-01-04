@@ -33,7 +33,7 @@ import javax.persistence.TemporalType;
             query = "SELECT o FROM OCorder o")
     ,
     @NamedQuery(name = "OCorder.getStatus",
-            query = "SELECT o FROM OCorder o WHERE o.statusDescription=:queryParam")
+            query = "SELECT o FROM OCorder o WHERE o.transportId=:queryParam")
 
 })
 
@@ -41,7 +41,7 @@ import javax.persistence.TemporalType;
 public class OCorder extends OCsingleIdEntity implements Serializable {
 
     private Long amount;
-    private Long transpordId;
+    private Long transportId;
     @Temporal(TemporalType.DATE)
     private Date orderDate;
     private String statusDescription;
@@ -94,12 +94,12 @@ public class OCorder extends OCsingleIdEntity implements Serializable {
         this.amount = amount;
     }
 
-    public Long getTranspordId() {
-        return transpordId;
+    public Long getTransportId() {
+        return transportId;
     }
 
-    public void setTranspordId(Long transpordId) {
-        this.transpordId = transpordId;
+    public void setTransportId(Long transportId) {
+        this.transportId = transportId;
     }
 
     public Date getOrderDate() {

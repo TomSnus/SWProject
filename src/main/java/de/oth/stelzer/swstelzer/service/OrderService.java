@@ -121,7 +121,7 @@ public class OrderService {
                 result = testDelService.createDeliveryorder(customer, orderDTO);
             }
             //order.setTranspordId(result.getId());
-            order.setTranspordId(1337l);
+            order.setTransportId(1337l);
             order.setOrderDate(dateTime);
             order.setStatus(status);
             order.setStatusDescription(statusDescription);
@@ -149,10 +149,18 @@ public class OrderService {
     }
 
     @Transactional
-    public String getStatusDescription(int id) {
-        TypedQuery query = entityManager.createNamedQuery("OCorder.getStatus", OCstatus.class);
-        OCorder order = (OCorder) query.getSingleResult();
-        return order.getStatusDescription();
+    public OCorder getStatusDescription(long transportId) {
+        OCorder order = null;
+        try {
+            TypedQuery query = entityManager.createNamedQuery("OCorder.getStatus", OCorder.class);
+            query.setParameter("queryParam", transportId);
+            order = (OCorder) query.getResultList().get(0);
+        } catch (Exception ex) {
+               //Element not found
+        } finally {
+            return order;
+        }
+
     }
 
     @Transactional
@@ -167,9 +175,10 @@ public class OrderService {
         TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
         query.setParameter("queryParam", fuelType);
         OCfuel fuel = query.getSingleResult();
-        
+
         return fuel;
     }
+
     @Transactional
     private OCforwardingCompany getForwardingCompanyById(Long id) {
         return entityManager.find(OCforwardingCompany.class, id);
@@ -178,7 +187,7 @@ public class OrderService {
     @Transactional
     private Double calcPrice(Long amount, OCfuel fuel) {
         Double value = amount * fuel.getPrice();
-        return (double) Math.round(value *100)/100; //output with 2 decimal places
+        return (double) Math.round(value * 100) / 100; //output with 2 decimal places
     }
 
     @Transactional

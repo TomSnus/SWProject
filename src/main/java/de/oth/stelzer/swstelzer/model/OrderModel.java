@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIInput;
 import javax.faces.model.SelectItem;
@@ -32,7 +33,7 @@ public class OrderModel implements Serializable {
 
     //Attributes
     private Long amount;
-    private Long transpordId;
+    private Long transportId;
     private Date orderDate;
     private String statusDescription;
     private Double orderPrice;
@@ -40,6 +41,9 @@ public class OrderModel implements Serializable {
     private OCfuel fuel;
     private OCstatus status;
     private OCforwardingCompany forwardingCompany;
+    
+    
+    private String errorMsg;
 
     @Inject
     private OrderService orderService;
@@ -56,12 +60,12 @@ public class OrderModel implements Serializable {
         this.amount = amount;
     }
 
-    public Long getTranspordId() {
-        return transpordId;
+    public Long getTransportId() {
+        return transportId;
     }
 
-    public void setTranspordId(Long transpordId) {
-        this.transpordId = transpordId;
+    public void setTransportId(Long transportId) {
+        this.transportId = transportId;
     }
 
     public Date getOrderDate() {
@@ -126,6 +130,55 @@ public class OrderModel implements Serializable {
 
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+    
+    
+
+    public void checkStatus() {
+        OCorder order = this.orderService.getStatusDescription(this.transportId);
+        if (order != null) {
+            this.amount = order.getAmount();
+            this.customer = order.getCustomer();
+            this.forwardingCompany = order.getForwardingCompany();
+            this.fuel = order.getFuel();
+            this.orderDate = order.getOrderDate();
+            this.status = order.getStatus();
+            this.orderPrice = order.getOrderPrice();
+            this.statusDescription = order.getStatusDescription();
+            this.errorMsg = "";
+        }
+        else {
+            errorMsg = "No Order found for the ID: "+this.transportId;
+            clearAttributes();
+        }
+            
+    }
+
+    private void clearAttributes() {
+        this.amount = 0l;
+        this.customer = null;
+        this.forwardingCompany = null;
+        this.fuel = null;
+        this.orderDate = null;
+        this.orderPrice = 0d;
+        this.status = null;
+        this.statusDescription = null;
+    }
+    
+    public String statusText() {
+        return "Your order with the ID: "+transportId +" is in the Status: " + this.statusDescription + "\n"
+                + "Orderdate: " + this.orderDate + "\n"
+                + "Amount: " + this.amount + " liter " + this.fuel.getFuelType() + "\n"
+                + "Price: " + this.orderPrice + " €";
+        
     }
 
 }
