@@ -47,6 +47,7 @@ public class OrderModel implements Serializable {
 
     @Inject
     private OrderService orderService;
+    private String statusText;
 
     public Collection<OCorder> allOrders() {
         return this.orderService.getAllOrders();
@@ -154,6 +155,7 @@ public class OrderModel implements Serializable {
             this.orderPrice = order.getOrderPrice();
             this.statusDescription = order.getStatusDescription();
             this.errorMsg = "";
+            setStatusText();
         }
         else {
             errorMsg = "No Order found for the ID: "+this.transportId;
@@ -173,12 +175,17 @@ public class OrderModel implements Serializable {
         this.statusDescription = null;
     }
     
-    public String statusText() {
-        return "Your order with the ID: "+transportId +" is in the Status: " + this.statusDescription + "\n"
+    public void setStatusText() {
+         statusText = "Your order with the ID: "+transportId +" is in the Status: " + this.statusDescription + "\n"
                 + "Orderdate: " + this.orderDate + "\n"
                 + "Amount: " + this.amount + " liter " + this.fuel.getFuelType() + "\n"
                 + "Price: " + this.orderPrice + " €";
         
     }
+
+    public String getStatusText() {
+        return statusText;
+    }
+    
 
 }

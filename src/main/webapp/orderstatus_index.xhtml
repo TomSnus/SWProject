@@ -24,8 +24,11 @@
 
                     <h:commandButton value="Check Status" action="#{orderModel.checkStatus()}"/>
                 </h:panelGrid>
-
-                <h:outputLabel value="#{orderModel.statusText()}" />
+                
+                <pre>
+                 <h:outputLabel value="#{orderModel.statusText}" />   
+                </pre>
+                
                 <h:outputLabel style="color:red;" value="#{orderModel.errorMsg}" />
             </h:form>
         </div>
