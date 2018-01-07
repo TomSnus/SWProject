@@ -35,7 +35,7 @@ import javax.xml.ws.WebServiceRef;
 @RequestScoped
 public class OrderService {
 
-    Environment environment = Environment.PROD;
+    Environment environment = TestDeliveryService.environment;
 
     @PersistenceContext(unitName = "SWStelzer_pu")
     private EntityManager entityManager;

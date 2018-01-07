@@ -18,6 +18,7 @@ import javax.xml.ws.WebServiceRef;
 import de.oth.stelzer.swstelzer.delivery.OrderServiceService;
 import de.oth.stelzer.swstelzer.delivery.Status;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
+import de.oth.stelzer.swstelzer.resources.Environment;
 import java.util.stream.Collectors;
 
 /**
@@ -27,10 +28,15 @@ import java.util.stream.Collectors;
 @Singleton
 public class OrderStatusService {
 
+    Environment environment = TestDeliveryService.environment;
+
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/SWJosefIlg-0.1/OrderService.wsdl")
     private OrderServiceService service;
     @Inject
     OrderService oService;
+
+    @Inject
+    TestDeliveryService testDelService;
 
     /**
      * Updating Status of not finished orders every 10 min
@@ -45,13 +51,18 @@ public class OrderStatusService {
         try { // Call Web Service Operation
             de.oth.stelzer.swstelzer.delivery.OrderService port = service.getOrderServicePort();
             de.oth.stelzer.swstelzer.delivery.DeliveryOrder dOrder = new de.oth.stelzer.swstelzer.delivery.DeliveryOrder();
-            for(OCorder order : orderList){
+            for (OCorder order : orderList) {
                 OCstatus newStatus = OCstatus.SHIPPED;
                 dOrder.setId(order.getTransportId());
-                de.oth.stelzer.swstelzer.delivery.Status result = port.getDeliveryStatus(dOrder);
+                de.oth.stelzer.swstelzer.delivery.Status result= null;
+                if (environment.equals(Environment.PROD)) {
+                    result = port.getDeliveryStatus(dOrder);
+                } else if (environment.equals(Environment.TEST)) {
+                    result = testDelService.getDeliveryStatus(dOrder);
+                }
                 order.setStatusDescription(result.name());
-                if(result.equals(Status.FINISHED)) {
-                    newStatus = OCstatus.FINISHED; 
+                if (result.equals(Status.FINISHED)) {
+                    newStatus = OCstatus.FINISHED;
                 }
                 oService.updateStatus(order, newStatus, result.name());
             }

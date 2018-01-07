@@ -12,6 +12,7 @@ import de.oth.stelzer.swstelzer.delivery.Product;
 import de.oth.stelzer.swstelzer.delivery.Status;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.iface.IDeliveryService;
+import de.oth.stelzer.swstelzer.resources.Environment;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -21,6 +22,7 @@ import javax.jws.WebService;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import de.oth.stelzer.swstelzer.delivery.Status;
 
 /**
  *
@@ -29,7 +31,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @WebService(serviceName="TestDeliveryService")
 @RequestScoped
 public class TestDeliveryService implements IDeliveryService, Serializable {
-
+    
+    public static Environment environment = Environment.TEST;
+    
     @Override
     public DeliveryOrder createDeliveryorder(OCcustomer customer, OrderDTO orderDTO) {
         DeliveryOrder deliveryOrder = null;
@@ -66,6 +70,11 @@ public class TestDeliveryService implements IDeliveryService, Serializable {
         } finally {
             return deliveryOrder;
         }
+    }
+
+    Status getDeliveryStatus(DeliveryOrder dOrder) {
+        Status status = Status.DELIVERY;
+        return status;
     }
 
 }
