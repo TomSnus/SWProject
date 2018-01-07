@@ -41,7 +41,7 @@ public class OrderStatusService {
     /**
      * Updating Status of not finished orders every 10 min
      */
-    @Schedule(second = "*", minute = "*/10", hour = "*", persistent = false)
+    @Schedule(minute = "*/1", hour = "*", persistent = false)
     public void updateOrderStatus() {
         List<OCorder> orderList = new ArrayList<>(oService.getAllOrders());
         orderList = orderList
@@ -60,7 +60,7 @@ public class OrderStatusService {
                 } else if (environment.equals(Environment.TEST)) {
                     result = testDelService.getDeliveryStatus(dOrder);
                 }
-                order.setStatusDescription(result.name());
+                order.setStatusDescription(result.value());
                 if (result.equals(Status.FINISHED)) {
                     newStatus = OCstatus.FINISHED;
                 }
