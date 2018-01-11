@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
@@ -50,6 +51,7 @@ public class OrderService {
     TestDeliveryService testDelService;
 
     @Transactional
+    @WebMethod(exclude = true)
     public OCfuel getFuelByType(String ft) {
         String queryParam = ft;
         TypedQuery query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
@@ -71,11 +73,13 @@ public class OrderService {
     }
 
     @Transactional
+    @WebMethod(exclude = true)
     public void insertFuel(OCfuel fuel) {
         entityManager.persist(fuel);
     }
 
     @Transactional
+    @WebMethod(exclude = true)
     public void updateFuelPrice(OCfuel fuel) {
         entityManager.merge(fuel);
     }
@@ -90,18 +94,11 @@ public class OrderService {
             fuelList = query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Fueltype not found", e);
-        } finally {
-            return fuelList.get(0);
         }
+        return fuelList.get(0);
 
     }
 
-    /**
-     * This Method gets called by the Petrol Station to create a Order
-     *
-     * @param orderDTO
-     * @return OCorder Object
-     */
     @Transactional
     public OCorder createOrder(@WebParam(name = "orderDTO") OrderDTO orderDTO) {
         OCorder order = new OCorder();
@@ -143,12 +140,14 @@ public class OrderService {
     }
 
     @Transactional
+    @WebMethod(exclude=true)
     public Collection<OCorder> getAllOrders() {
         TypedQuery query = entityManager.createNamedQuery("OCorder.getAll", OCorder.class);
         return query.getResultList();
     }
 
     @Transactional
+    @WebMethod(exclude=true)
     public OCorder getStatusDescription(long transportId) {
         OCorder order = null;
         try {
@@ -156,7 +155,7 @@ public class OrderService {
             query.setParameter("queryParam", transportId);
             order = (OCorder) query.getResultList().get(0);
         } catch (Exception ex) {
-               //Element not found
+            //Element not found
         } finally {
             return order;
         }
@@ -164,6 +163,7 @@ public class OrderService {
     }
 
     @Transactional
+    @WebMethod(exclude=true)
     public void updateStatus(OCorder order, OCstatus status, String statusDesc) {
         order.setStatus(status);
         order.setStatusDescription(statusDesc);
@@ -171,26 +171,20 @@ public class OrderService {
     }
 
     @Transactional
-    private OCfuel getFuelByDTO(String fuelType) {
-        TypedQuery<OCfuel> query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
-        query.setParameter("queryParam", fuelType);
-        OCfuel fuel = query.getSingleResult();
-
-        return fuel;
-    }
-
-    @Transactional
+    @WebMethod(exclude=true)
     private OCforwardingCompany getForwardingCompanyById(Long id) {
         return entityManager.find(OCforwardingCompany.class, id);
     }
 
     @Transactional
+    @WebMethod(exclude=true)
     private Double calcPrice(Long amount, OCfuel fuel) {
         Double value = amount * fuel.getPrice();
         return (double) Math.round(value * 100) / 100; //output with 2 decimal places
     }
 
     @Transactional
+    @WebMethod(exclude=true)
     public void removeFuel(OCfuel item) {
         item = entityManager.merge(item);
         entityManager.remove(item);

@@ -31,6 +31,7 @@ public class CRMService {
     private EntityManager entityManager;
     
     @Transactional
+    @WebMethod(exclude=true)
     public OCcustomer getCustomerById(Long id) {
         return entityManager.find(OCcustomer.class, id);
     }
@@ -73,6 +74,7 @@ public class CRMService {
     }
 
     @Transactional
+    @WebMethod(exclude=true)
     public OCcompany addCompany(OCcompany company) {
         entityManager.persist(company);
         return company;
