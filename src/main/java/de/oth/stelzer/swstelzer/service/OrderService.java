@@ -120,8 +120,8 @@ public class OrderService {
             } else if (environment.equals(Environment.TEST)) {
                 result = testDelService.createDeliveryorder(customer, orderDTO);
             }
-            //order.setTranspordId(result.getId());
-            order.setTransportId(1337l);
+            order.setTransportId(result.getId());
+            //order.setTransportId(1337l);
             order.setOrderDate(dateTime);
             order.setStatus(status);
             order.setStatusDescription(statusDescription);

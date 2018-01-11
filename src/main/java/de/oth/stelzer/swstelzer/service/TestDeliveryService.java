@@ -32,7 +32,7 @@ import de.oth.stelzer.swstelzer.delivery.Status;
 @RequestScoped
 public class TestDeliveryService implements IDeliveryService, Serializable {
     
-    public static Environment environment = Environment.TEST;
+    public static Environment environment = Environment.PROD;
     
     @Override
     public DeliveryOrder createDeliveryorder(OCcustomer customer, OrderDTO orderDTO) {

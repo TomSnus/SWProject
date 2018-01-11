@@ -41,7 +41,7 @@ public class OrderStatusService {
     /**
      * Updating Status of not finished orders every 10 min
      */
-    @Schedule(minute = "*/1", hour = "*", persistent = false)
+    @Schedule(minute = "*/30", hour = "*", persistent = false)
     public void updateOrderStatus() {
         List<OCorder> orderList = new ArrayList<>(oService.getAllOrders());
         orderList = orderList
