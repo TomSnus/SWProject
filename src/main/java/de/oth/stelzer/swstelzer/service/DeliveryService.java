@@ -38,7 +38,7 @@ public class DeliveryService implements IDeliveryService, Serializable {
             // TODO initialize WS operation arguments here
             DeliveryOrder deliveryOrder = new DeliveryOrder();
             Customer c = new Customer();
-            c.setId(81l);
+            c.setId(1l);
             deliveryOrder.setCustomer(c);
             Address a = new Address();
             a.setState(customer.getAddress().getState());

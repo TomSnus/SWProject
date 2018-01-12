@@ -39,9 +39,9 @@ public class OrderStatusService {
     TestDeliveryService testDelService;
 
     /**
-     * Updating Status of not finished orders every 10 min
+     * Updating Status of not finished orders every minute
      */
-    @Schedule(minute = "*/30", hour = "*", persistent = false)
+    //@Schedule(minute = "*/1", persistent = false)
     public void updateOrderStatus() {
         List<OCorder> orderList = new ArrayList<>(oService.getAllOrders());
         orderList = orderList
@@ -67,7 +67,7 @@ public class OrderStatusService {
                 oService.updateStatus(order, newStatus, result.name());
             }
         } catch (Exception ex) {
-            throw new RuntimeException("Error: Could not receive Order Status", ex);
+            throw new RuntimeException("Error: Could not receive Order Status "+ex.getMessage(), ex);
         }
 
     }
