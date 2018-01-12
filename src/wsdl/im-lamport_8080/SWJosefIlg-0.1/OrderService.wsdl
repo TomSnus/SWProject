@@ -10,6 +10,10 @@
 
   <xs:element name="orderTransportResponse" type="tns:orderTransportResponse"/>
 
+  <xs:element name="setStatus" type="tns:setStatus"/>
+
+  <xs:element name="setStatusResponse" type="tns:setStatusResponse"/>
+
   <xs:complexType name="orderTransport">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="tns:deliveryOrder"/>
@@ -20,11 +24,10 @@
     <xs:complexContent>
       <xs:extension base="tns:singleIdEntity">
         <xs:sequence>
-          <xs:element minOccurs="0" name="collectionDate" type="xs:dateTime"/>
           <xs:element minOccurs="0" name="customer" type="tns:customer"/>
           <xs:element minOccurs="0" name="deliveryAddress" type="tns:address"/>
           <xs:element minOccurs="0" name="deliveryDate" type="xs:dateTime"/>
-          <xs:element maxOccurs="unbounded" minOccurs="0" name="oilTanker" nillable="true" type="tns:oilTanker"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="oilTankers" nillable="true" type="tns:oilTanker"/>
           <xs:element minOccurs="0" name="orderDate" type="xs:dateTime"/>
           <xs:element minOccurs="0" name="product" type="tns:product"/>
           <xs:element minOccurs="0" name="status" type="tns:status"/>
@@ -103,9 +106,19 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="setStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:deliveryOrder"/>
+      <xs:element minOccurs="0" name="arg1" type="tns:status"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setStatusResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
   <xs:simpleType name="status">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="COLLECTION"/>
       <xs:enumeration value="DELIVERY"/>
       <xs:enumeration value="FINISHED"/>
       <xs:enumeration value="PROCESS"/>
@@ -126,8 +139,16 @@
     <wsdl:part element="tns:orderTransportResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="setStatusResponse">
+    <wsdl:part element="tns:setStatusResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getDeliveryStatusResponse">
     <wsdl:part element="tns:getDeliveryStatusResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setStatus">
+    <wsdl:part element="tns:setStatus" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="OrderService">
@@ -141,6 +162,12 @@
       <wsdl:input message="tns:getDeliveryStatus" name="getDeliveryStatus">
     </wsdl:input>
       <wsdl:output message="tns:getDeliveryStatusResponse" name="getDeliveryStatusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setStatus">
+      <wsdl:input message="tns:setStatus" name="setStatus">
+    </wsdl:input>
+      <wsdl:output message="tns:setStatusResponse" name="setStatusResponse">
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
@@ -161,6 +188,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getDeliveryStatusResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setStatus">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="setStatus">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setStatusResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

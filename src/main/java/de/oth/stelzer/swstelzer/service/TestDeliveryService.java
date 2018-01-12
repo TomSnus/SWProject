@@ -62,7 +62,7 @@ public class TestDeliveryService implements IDeliveryService, Serializable {
             //Date
             deliveryOrder.setOrderDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(gc));
             deliveryOrder.setDeliveryDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(gc));
-            deliveryOrder.setCollectionDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(gc));
+            
             //Id
             deliveryOrder.setId(1337);
         } catch (DatatypeConfigurationException ex) {
