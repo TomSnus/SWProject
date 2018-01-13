@@ -6,7 +6,7 @@
 package de.oth.stelzer.swstelzer.service;
 
 /**
- *
+ * DTO for partner to get the fuelprice
  * @author Tom
  */
 public class FuelDTO {

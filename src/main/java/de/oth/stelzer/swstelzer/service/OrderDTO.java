@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- *
+ * DTO for creating a Order Object
  * @author Tom
  */
 

@@ -50,6 +50,11 @@ public class OrderService {
     @Inject
     TestDeliveryService testDelService;
 
+    /**
+     *
+     * @param ft
+     * @return Fuel selected by Type
+     */
     @Transactional
     @WebMethod(exclude = true)
     public OCfuel getFuelByType(String ft) {
@@ -72,18 +77,33 @@ public class OrderService {
         return fuelList;
     }
 
+    /**
+     * Insert new Fuel
+     *
+     * @param fuel
+     */
     @Transactional
     @WebMethod(exclude = true)
     public void insertFuel(OCfuel fuel) {
         entityManager.persist(fuel);
     }
 
+    /**
+     * Update Fuel
+     *
+     * @param fuel
+     */
     @Transactional
     @WebMethod(exclude = true)
     public void updateFuelPrice(OCfuel fuel) {
         entityManager.merge(fuel);
     }
 
+    /**
+     *
+     * @param fdto
+     * @return Fuel selected by DTO
+     */
     @Transactional
     public OCfuel getFuelByDTO(FuelDTO fdto) {
         List<OCfuel> fuelList = null;
@@ -99,6 +119,12 @@ public class OrderService {
 
     }
 
+    /**
+     * ----Main Function for Control Flow---
+     *
+     * @param orderDTO
+     * @return order
+     */
     @Transactional
     public OCorder createOrder(@WebParam(name = "orderDTO") OrderDTO orderDTO) {
         OCorder order = new OCorder();
@@ -135,12 +161,15 @@ public class OrderService {
             entityManager.persist(order);
         } catch (Exception e) {
             throw new RuntimeException("Order could not be created", e);
-        } finally {
-            return order;
         }
+        return order;
 
     }
 
+    /**
+     *
+     * @return list of orders
+     */
     @Transactional
     @WebMethod(exclude = true)
     public Collection<OCorder> getAllOrders() {
@@ -148,6 +177,11 @@ public class OrderService {
         return query.getResultList();
     }
 
+    /**
+     *
+     * @param transportId
+     * @return order by transport ID (for Status purposes)
+     */
     @Transactional
     @WebMethod(exclude = true)
     public OCorder getStatusDescription(long transportId) {
@@ -158,12 +192,17 @@ public class OrderService {
             order = (OCorder) query.getResultList().get(0);
         } catch (Exception ex) {
             //Element not found
-        } finally {
-            return order;
         }
+        return order;
 
     }
 
+    /**
+     * Updating order status
+     * @param order
+     * @param status
+     * @param statusDesc
+     */
     @Transactional
     @WebMethod(exclude = true)
     public void updateStatus(OCorder order, OCstatus status, String statusDesc) {
@@ -185,6 +224,10 @@ public class OrderService {
         return (double) Math.round(value * 100) / 100; //output with 2 decimal places
     }
 
+    /**
+     * Remove fuel
+     * @param item
+     */
     @Transactional
     @WebMethod(exclude = true)
     public void removeFuel(OCfuel item) {

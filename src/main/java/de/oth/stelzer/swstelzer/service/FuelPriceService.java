@@ -18,7 +18,7 @@ import javax.inject.Inject;
 
 
 /**
- *
+ * Sheduled Method for price changes
  * @author Tom
  */
 @Singleton
