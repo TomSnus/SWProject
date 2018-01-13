@@ -22,17 +22,15 @@ import javax.inject.Named;
 @Named
 public class FuelConverter implements Converter {
 
-//    @PersistenceContext(unitName = "SWStelzer_pu")
-//    private EntityManager entityManager;
     @Inject
     private OrderService orderService;
-    
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if (value == null) {
             return "";
         }
-        OCfuel fuel =  orderService.getFuelByType(value);
+        OCfuel fuel = orderService.getFuelByType(value);
         if (fuel == null) {
             return "";
         }

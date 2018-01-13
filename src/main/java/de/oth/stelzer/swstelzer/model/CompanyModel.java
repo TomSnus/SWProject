@@ -53,7 +53,6 @@ public class CompanyModel implements Serializable {
                 crmService.removeCustomer((OCcustomer) entry.getKey());
             }
         }
-
         //clean checked list
         checked.clear();
 
@@ -98,23 +97,17 @@ public class CompanyModel implements Serializable {
         OCforwardingCompany newCompany = new OCforwardingCompany();
         newCompany.setName(this.name);
         newCompany.setAddress(newAddress);
-
         crmService.addCompany(newCompany);
         cleanAttributs();
-
         return "refresh";
     }
 
     public String verifyCustomer(OCaddress newAddress) {
         OCcustomer newCustomer = new OCcustomer();
         newCustomer.setName(this.name);
-       // newCustomer.setDescription(this.description);
         newCustomer.setAddress(newAddress);
-        
         crmService.addCompany(newCustomer);
-//        crmService.addCustomer(newCustomer);
         cleanAttributs();
-
         return "refresh";
     }
 
@@ -127,15 +120,9 @@ public class CompanyModel implements Serializable {
         this.zip = null;
     }
 
-//    public void validate(FacesContext context, UIComponent comp, Object value) {
-//        String inputName = (String) value;
-//        if (inputName.length() < 5) {
-//            ((UIInput) comp).setValid(false);
-//            FacesMessage message = new FacesMessage(ErrorHandler.CUSTOMER_ERROR);
-//            context.addMessage(comp.getClientId(context), message);
-//        }
-//    }
-
+    /**
+     * Begin Getter & Setter
+     */
     public String getName() {
         return name;
     }
@@ -192,4 +179,7 @@ public class CompanyModel implements Serializable {
         this.checked = checked;
     }
 
+    /**
+     * End Getter & Setter
+     */
 }

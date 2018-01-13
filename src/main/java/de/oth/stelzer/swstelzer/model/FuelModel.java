@@ -13,10 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -83,15 +79,10 @@ public class FuelModel implements Serializable {
         this.price = null;
         this.fuelType = "";
     }
-
-//    public void validatePrice(FacesContext context, UIComponent comp, Object value) {
-//        Double price = (Double) value;
-//        if ((price < 0.5) || (price >= 2.0)) {
-//            ((UIInput) comp).setValid(false);
-//            FacesMessage message = new FacesMessage(ErrorHandler.FUEL_ERROR);
-//            context.addMessage(comp.getClientId(context), message);
-//        }
-//    }
+    
+     /**
+     * Begin Getter & Setter 
+     */
 
     public String getDescription() {
         return description;
@@ -148,4 +139,8 @@ public class FuelModel implements Serializable {
     public void setSelectedFuel(OCfuel selectedFuel) {
         this.selectedFuel = selectedFuel;
     }
+    
+     /**
+     * End Getter & Setter 
+     */
 }

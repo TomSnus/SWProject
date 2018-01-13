@@ -14,12 +14,7 @@ import de.oth.stelzer.swstelzer.service.OrderService;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.component.UIInput;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -41,8 +36,7 @@ public class OrderModel implements Serializable {
     private OCfuel fuel;
     private OCstatus status;
     private OCforwardingCompany forwardingCompany;
-    
-    
+
     private String errorMsg;
 
     @Inject
@@ -53,6 +47,9 @@ public class OrderModel implements Serializable {
         return this.orderService.getAllOrders();
     }
 
+    /**
+     * Begin Getter & Setter 
+     */
     public Long getAmount() {
         return amount;
     }
@@ -141,7 +138,13 @@ public class OrderModel implements Serializable {
         this.errorMsg = errorMsg;
     }
     
+    public String getStatusText() {
+        return statusText;
+    }
     
+    /**
+     * End Getter & Setter 
+     */
 
     public void checkStatus() {
         OCorder order = this.orderService.getStatusDescription(this.transportId);
@@ -156,12 +159,11 @@ public class OrderModel implements Serializable {
             this.statusDescription = order.getStatusDescription();
             this.errorMsg = "";
             setStatusText();
-        }
-        else {
-            errorMsg = "No Order found for the ID: "+this.transportId;
+        } else {
+            errorMsg = "No Order found for the ID: " + this.transportId;
             clearAttributes();
         }
-            
+
     }
 
     private void clearAttributes() {
@@ -174,18 +176,12 @@ public class OrderModel implements Serializable {
         this.status = null;
         this.statusDescription = null;
     }
-    
+
     public void setStatusText() {
-         statusText = "Your order with the ID: "+transportId +" is in the Status: " + this.statusDescription + "\n"
+        statusText = "Your order with the ID: " + transportId + " is in the Status: " + this.statusDescription + "\n"
                 + "Orderdate: " + this.orderDate + "\n"
                 + "Amount: " + this.amount + " liter " + this.fuel.getFuelType() + "\n"
                 + "Price: " + this.orderPrice + " €";
-        
-    }
 
-    public String getStatusText() {
-        return statusText;
     }
-    
-
 }

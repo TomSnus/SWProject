@@ -1,14 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Softwareentwicklung Projekt
+ *  Stelzer Thomas Matrikelnummer: 3001545
+ *  Oil Company
  */
 package de.oth.stelzer.swstelzer.entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -17,14 +15,15 @@ import javax.persistence.NamedQuery;
  * @author Tom
  */
 @NamedQueries({
-    @NamedQuery(name="OCfuel.getAll",
-                query="SELECT o FROM OCfuel o"),
-    @NamedQuery(name="OCfuel.getSingleFuel",
-                query="SELECT o FROM OCfuel o WHERE o.fuelType=:queryParam")
+    @NamedQuery(name = "OCfuel.getAll",
+            query = "SELECT o FROM OCfuel o")
+    ,
+    @NamedQuery(name = "OCfuel.getSingleFuel",
+            query = "SELECT o FROM OCfuel o WHERE o.fuelType=:queryParam")
 })
 @Entity
 public class OCfuel extends OCsingleIdEntity implements Serializable {
-    
+
     private String fuelType;
     private String description;
     private Double price;
@@ -66,8 +65,5 @@ public class OCfuel extends OCsingleIdEntity implements Serializable {
     public String toString() {
         return fuelType + ", current price=" + price;
     }
-    
-    
-    
-        
+
 }

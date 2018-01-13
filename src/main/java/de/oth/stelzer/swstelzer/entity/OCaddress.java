@@ -1,12 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Softwareentwicklung Projekt
+ *  Stelzer Thomas Matrikelnummer: 3001545
+ *  Oil Company
  */
 package de.oth.stelzer.swstelzer.entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -16,11 +15,11 @@ import javax.persistence.Entity;
 @Entity
 public class OCaddress extends OCsingleIdEntity implements Serializable {
 
-   private String zip;
-   private String houseNumber;
-   private String street;
-   private String state;
-   
+    private String zip;
+    private String houseNumber;
+    private String street;
+    private String state;
+
     public String getHouseNumber() {
         return houseNumber;
     }
@@ -56,14 +55,10 @@ public class OCaddress extends OCsingleIdEntity implements Serializable {
         this.zip = zip;
     }
 
-    
-    
     public OCaddress(String houseNumber, String street, String state) {
         this.houseNumber = houseNumber;
         this.street = street;
         this.state = state;
     }
 
-   
-    
 }
