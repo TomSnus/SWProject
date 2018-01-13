@@ -6,8 +6,6 @@
 package de.oth.stelzer.swstelzer.service;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  * DTO for creating a Order Object

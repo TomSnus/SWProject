@@ -9,7 +9,6 @@ import de.oth.stelzer.swstelzer.delivery.Address;
 import de.oth.stelzer.swstelzer.delivery.Customer;
 import de.oth.stelzer.swstelzer.delivery.DeliveryOrder;
 import de.oth.stelzer.swstelzer.delivery.Product;
-import de.oth.stelzer.swstelzer.delivery.Status;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.iface.IDeliveryService;
 import de.oth.stelzer.swstelzer.resources.Environment;
@@ -21,7 +20,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.jws.WebService;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import de.oth.stelzer.swstelzer.delivery.Status;
 
 /**
