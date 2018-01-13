@@ -40,6 +40,11 @@ public class OrderStatusService {
 
     /**
      * Updating Status of not finished orders every minute
+     * 
+     * If Partner set Status of the Deliveryorder to "FINISHED"
+     * Order.status is set to FINISHED.
+     * 
+     * Standard Status for shipped orders = SHIPPED
      */
     @Schedule(second="*", minute = "*/1", hour="*", persistent = false)
     public void updateOrderStatus() {

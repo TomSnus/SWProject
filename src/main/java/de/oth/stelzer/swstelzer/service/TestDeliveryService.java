@@ -25,15 +25,17 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import de.oth.stelzer.swstelzer.delivery.Status;
 
 /**
+ * 
+ * Class for Test purposes, in case Partnerproject is not online
  *
  * @author Tom
  */
-@WebService(serviceName="TestDeliveryService")
+@WebService(serviceName = "TestDeliveryService")
 @RequestScoped
 public class TestDeliveryService implements IDeliveryService, Serializable {
-    
+
     public static Environment environment = Environment.PROD;
-    
+
     @Override
     public DeliveryOrder createDeliveryorder(OCcustomer customer, OrderDTO orderDTO) {
         DeliveryOrder deliveryOrder = null;
@@ -62,7 +64,6 @@ public class TestDeliveryService implements IDeliveryService, Serializable {
             //Date
             deliveryOrder.setOrderDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(gc));
             deliveryOrder.setDeliveryDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(gc));
-            
             //Id
             deliveryOrder.setId(1337);
         } catch (DatatypeConfigurationException ex) {

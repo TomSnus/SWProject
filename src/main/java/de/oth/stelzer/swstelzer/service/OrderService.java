@@ -103,33 +103,35 @@ public class OrderService {
     public OCorder createOrder(@WebParam(name = "orderDTO") OrderDTO orderDTO) {
         OCorder order = new OCorder();
         try {
+            //Create Attributes of order
             OCcustomer customer = crmService.getCustomerById(orderDTO.getCustomerId());
             OCfuel fuel = this.getFuelByType(orderDTO.getFuelType());
             OCforwardingCompany fwCompany = this.getForwardingCompanyById(43l);
             Date dateTime = new Date();
             OCstatus status = OCstatus.PROCESSING;
-            String statusDescription = "Order in process";
+            String statusDescription = status.name();
             Double orderPrice = calcPrice(orderDTO.getAmount(), fuel);
-            // Call Partner 
+            // Call Partner or Test environment
             DeliveryOrder result = null;
             if (environment.equals(Environment.PROD)) {
                 result = delService.createDeliveryorder(customer, orderDTO);
             } else if (environment.equals(Environment.TEST)) {
                 result = testDelService.createDeliveryorder(customer, orderDTO);
             }
+            //Set Attributes of order
             order.setTransportId(result.getId());
-            //order.setTransportId(1337l);
             order.setOrderDate(dateTime);
             order.setStatus(status);
             order.setStatusDescription(statusDescription);
             order.setOrderPrice(orderPrice);
             order.setAmount(orderDTO.getAmount());
-            entityManager.persist(customer);
-            entityManager.persist(fwCompany);
-            entityManager.persist(fuel);
             order.setFuel(fuel);
             order.setCustomer(customer);
             order.setForwardingCompany(fwCompany);
+            //Persist order
+            entityManager.persist(customer);
+            entityManager.persist(fwCompany);
+            entityManager.persist(fuel);
             entityManager.persist(order);
         } catch (Exception e) {
             throw new RuntimeException("Order could not be created", e);
@@ -140,14 +142,14 @@ public class OrderService {
     }
 
     @Transactional
-    @WebMethod(exclude=true)
+    @WebMethod(exclude = true)
     public Collection<OCorder> getAllOrders() {
         TypedQuery query = entityManager.createNamedQuery("OCorder.getAll", OCorder.class);
         return query.getResultList();
     }
 
     @Transactional
-    @WebMethod(exclude=true)
+    @WebMethod(exclude = true)
     public OCorder getStatusDescription(long transportId) {
         OCorder order = null;
         try {
@@ -163,7 +165,7 @@ public class OrderService {
     }
 
     @Transactional
-    @WebMethod(exclude=true)
+    @WebMethod(exclude = true)
     public void updateStatus(OCorder order, OCstatus status, String statusDesc) {
         order.setStatus(status);
         order.setStatusDescription(statusDesc);
@@ -171,20 +173,20 @@ public class OrderService {
     }
 
     @Transactional
-    @WebMethod(exclude=true)
+    @WebMethod(exclude = true)
     private OCforwardingCompany getForwardingCompanyById(Long id) {
         return entityManager.find(OCforwardingCompany.class, id);
     }
 
     @Transactional
-    @WebMethod(exclude=true)
+    @WebMethod(exclude = true)
     private Double calcPrice(Long amount, OCfuel fuel) {
         Double value = amount * fuel.getPrice();
         return (double) Math.round(value * 100) / 100; //output with 2 decimal places
     }
 
     @Transactional
-    @WebMethod(exclude=true)
+    @WebMethod(exclude = true)
     public void removeFuel(OCfuel item) {
         item = entityManager.merge(item);
         entityManager.remove(item);
