@@ -5,20 +5,13 @@
  */
 package de.oth.stelzer.swstelzer.ui;
 
-import de.oth.stelzer.swstelzer.Student;
-import de.oth.stelzer.swstelzer.entity.OCaddress;
-import de.oth.stelzer.swstelzer.entity.OCcustomer;
-import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
-import de.oth.stelzer.swstelzer.entity.OCfuel;
-import de.oth.stelzer.swstelzer.entity.OCorder;
+
 import de.oth.stelzer.swstelzer.service.OrderDTO;
 import de.oth.stelzer.swstelzer.service.CRMService;
-import de.oth.stelzer.swstelzer.service.FuelDTO;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import de.oth.stelzer.swstelzer.service.OrderStatusService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
