@@ -43,7 +43,7 @@ public class OrderStatusService {
      * 
      * Standard Status for shipped orders = SHIPPED
      */
-    @Schedule(second="*", minute = "*/1", hour="*", persistent = false)
+    @Schedule(second="*/60", minute = "*", hour="*", persistent = false)
     public void updateOrderStatus() {
         List<OCorder> orderList = new ArrayList<>(oService.getAllOrders());
         orderList = orderList
