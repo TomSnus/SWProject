@@ -9,15 +9,17 @@ import de.oth.stelzer.swstelzer.entity.OCaddress;
 import de.oth.stelzer.swstelzer.entity.OCcompany;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
+import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
 import java.util.Collection;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
+import org.apache.logging.log4j.Logger;
 /**
  *
  * @author Tom
@@ -27,7 +29,10 @@ public class CRMService {
 
     @PersistenceContext(unitName = "SWStelzer_pu")
     private EntityManager entityManager;
-
+    
+    @Inject
+    @OptionCustomer
+    private Logger customerLogger;
     /**
      *
      * @param id
@@ -48,7 +53,9 @@ public class CRMService {
     public List<OCcustomer> getAllCustomers() {
         TypedQuery<OCcustomer> query = entityManager.createNamedQuery("OCcustomer.select", OCcustomer.class);
         List<OCcustomer> list = query.getResultList();
+        customerLogger.i
         return list;
+        
     }
 
     /**
@@ -64,6 +71,7 @@ public class CRMService {
 
         entityManager.remove(customer);
         entityManager.remove(address);
+        
 
     }
 

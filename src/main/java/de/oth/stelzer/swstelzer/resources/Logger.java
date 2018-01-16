@@ -9,10 +9,9 @@ import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
 import de.oth.stelzer.swstelzer.resources.qualifier.OptionOrder;
 import de.oth.stelzer.swstelzer.service.CRMService;
 import de.oth.stelzer.swstelzer.service.OrderService;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import org.apache.log4j.LogManager;
 import javax.enterprise.context.ApplicationScoped;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -20,17 +19,18 @@ import javax.enterprise.context.ApplicationScoped;
  */
 @ApplicationScoped
 public class Logger {
-
+    
+    @Produces
     @ApplicationScoped
     @OptionCustomer
-    public org.apache.log4j.Logger customerLogger() {
+    public org.apache.logging.log4j.Logger customerLogger() {
         return LogManager.getLogger(CRMService.class);
     }
 
     @Produces
     @ApplicationScoped
     @OptionOrder
-    public org.apache.log4j.Logger orderLogger() {
+    public org.apache.logging.log4j.Logger orderLogger() {
         return LogManager.getLogger(OrderService.class);
     }
 
