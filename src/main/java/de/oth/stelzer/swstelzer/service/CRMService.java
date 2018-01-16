@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.jws.WebMethod;
-import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -23,7 +22,6 @@ import javax.transaction.Transactional;
  *
  * @author Tom
  */
-@WebService(serviceName = "CRMService")
 @RequestScoped
 public class CRMService {
 
