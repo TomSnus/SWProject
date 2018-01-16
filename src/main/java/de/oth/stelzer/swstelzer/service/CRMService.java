@@ -53,7 +53,6 @@ public class CRMService {
     public List<OCcustomer> getAllCustomers() {
         TypedQuery<OCcustomer> query = entityManager.createNamedQuery("OCcustomer.select", OCcustomer.class);
         List<OCcustomer> list = query.getResultList();
-        customerLogger.i
         return list;
         
     }
@@ -68,10 +67,10 @@ public class CRMService {
     public void removeCustomer(OCcustomer customer) {
         customer = entityManager.merge(customer);
         OCaddress address = entityManager.merge(customer.getAddress());
-
         entityManager.remove(customer);
         entityManager.remove(address);
-        
+        customerLogger.info("customer removed: customer id: " + customer.getId());
+        customerLogger.info("address removed: address id: " + address.getId());
 
     }
 
@@ -99,6 +98,8 @@ public class CRMService {
         OCaddress address = entityManager.merge(fwc.getAddress());
         entityManager.remove(fwc);
         entityManager.remove(address);
+        customerLogger.info("fwc removed: fwc id: " + fwc.getId());
+        customerLogger.info("address removed: address id: " + address.getId());
     }
 
     /**
@@ -111,6 +112,7 @@ public class CRMService {
     @WebMethod(exclude = true)
     public OCcompany addCompany(OCcompany company) {
         entityManager.persist(company);
+        customerLogger.info("company added: customer id: " + company.getId());
         return company;
     }
 
