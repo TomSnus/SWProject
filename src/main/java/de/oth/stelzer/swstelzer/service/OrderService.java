@@ -12,6 +12,7 @@ import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
 import de.oth.stelzer.swstelzer.resources.Environment;
+import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -37,7 +39,11 @@ public class OrderService {
 
     @PersistenceContext(unitName = "SWStelzer_pu")
     private EntityManager entityManager;
-
+    
+    @Inject
+    @OptionCustomer
+    private Logger orderLogger;
+        
     @Inject
     CRMService crmService;
 
@@ -83,6 +89,7 @@ public class OrderService {
     @WebMethod(exclude = true)
     public void insertFuel(OCfuel fuel) {
         entityManager.persist(fuel);
+        orderLogger.info("Fuel added: Fuel id: " + fuel.getId() + " Type: " + fuel.getFuelType());
     }
 
     /**
@@ -94,6 +101,7 @@ public class OrderService {
     @WebMethod(exclude = true)
     public void updateFuelPrice(OCfuel fuel) {
         entityManager.merge(fuel);
+        orderLogger.info("Fuelprice changed: Fuel id: " + fuel.getId());
     }
 
     /**
@@ -110,6 +118,7 @@ public class OrderService {
             query.setParameter("queryParam", queryParam);
             fuelList = query.getResultList();
         } catch (Exception e) {
+            orderLogger.error("Fuel with the type " + fdto.getFueltype() + " not found");
             throw new RuntimeException("Fueltype not found", e);
         }
         return fuelList.get(0);
@@ -157,8 +166,10 @@ public class OrderService {
             entityManager.persist(fuel);
             entityManager.persist(order);
         } catch (Exception e) {
+            orderLogger.error("Ordercould not be created Type:" + orderDTO.getFuelType() + " Customer id: " + orderDTO.getCustomerId());
             throw new RuntimeException("Order could not be created", e);
         }
+        orderLogger.info("order created id: " + order.getId());
         return order;
 
     }
@@ -188,7 +199,7 @@ public class OrderService {
             query.setParameter("queryParam", transportId);
             order = (OCorder) query.getResultList().get(0);
         } catch (Exception ex) {
-            //Element not found
+            orderLogger.error("order not found. Transport id: " + transportId);
         }
         return order;
 
@@ -206,6 +217,7 @@ public class OrderService {
         order.setStatus(status);
         order.setStatusDescription(statusDesc);
         entityManager.merge(order);
+        orderLogger.info("Status updated. Order id: " + order.getId());
     }
 
     @Transactional
@@ -230,6 +242,7 @@ public class OrderService {
     public void removeFuel(OCfuel item) {
         item = entityManager.merge(item);
         entityManager.remove(item);
+        orderLogger.info("Fuel removed. Fuel id: " + item.getId());
     }
 
 }

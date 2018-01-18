@@ -16,7 +16,9 @@ import de.oth.stelzer.swstelzer.delivery.OrderServiceService;
 import de.oth.stelzer.swstelzer.delivery.Status;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
 import de.oth.stelzer.swstelzer.resources.Environment;
+import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -31,7 +33,11 @@ public class OrderStatusService {
     private OrderServiceService service;
     @Inject
     OrderService oService;
-
+    
+    @Inject
+    @OptionCustomer
+    private Logger orderLogger;
+     
     @Inject
     TestDeliveryService testDelService;
 
@@ -67,8 +73,10 @@ public class OrderStatusService {
                     newStatus = OCstatus.FINISHED;
                 }
                 oService.updateStatus(order, newStatus, result.name());
+                orderLogger.info("Status updated. order id: " + order.getId() + " old status: "+ order.getStatus() + " new status: " + result.name());
             }
         } catch (Exception ex) {
+            orderLogger.error("Could not receive Status of order.");
             throw new RuntimeException("Error: Could not receive Order Status "+ex.getMessage(), ex);
         }
 

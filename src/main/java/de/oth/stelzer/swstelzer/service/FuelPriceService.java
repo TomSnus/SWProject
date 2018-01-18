@@ -6,6 +6,7 @@
 package de.oth.stelzer.swstelzer.service;
 
 import de.oth.stelzer.swstelzer.entity.OCfuel;
+import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -25,6 +27,10 @@ public class FuelPriceService {
     @Inject
     OrderService oService;
     
+    @Inject
+    @OptionCustomer
+    private Logger orderLogger;
+     
     private Random rng = new Random();
 
     /**
@@ -37,5 +43,6 @@ public class FuelPriceService {
         OCfuel fuel = fuelList.get(rng.nextInt(fuelList.size()));
         fuel.setPrice((double) Math.round(newPrice * 100) / 100);
         oService.updateFuelPrice(fuel);
+        orderLogger.info("Fuel price updated. fuel id: " + fuel.getId());
     }
 }
