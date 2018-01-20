@@ -167,7 +167,6 @@ public class OrderService {
             entityManager.persist(order);
         } catch (Exception e) {
             orderLogger.error("Ordercould not be created Type:" + orderDTO.getFuelType() + " Customer id: " + orderDTO.getCustomerId());
-            throw new RuntimeException("Order could not be created", e);
         }
         orderLogger.info("order created id: " + order.getId());
         return order;
