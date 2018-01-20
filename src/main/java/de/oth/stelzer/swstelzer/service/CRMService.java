@@ -20,6 +20,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.apache.logging.log4j.Logger;
+
 /**
  *
  * @author Tom
@@ -29,10 +30,11 @@ public class CRMService {
 
     @PersistenceContext(unitName = "SWStelzer_pu")
     private EntityManager entityManager;
-    
+
     @Inject
     @OptionCustomer
     private Logger customerLogger;
+
     /**
      *
      * @param id
@@ -54,7 +56,7 @@ public class CRMService {
         TypedQuery<OCcustomer> query = entityManager.createNamedQuery("OCcustomer.select", OCcustomer.class);
         List<OCcustomer> list = query.getResultList();
         return list;
-        
+
     }
 
     /**
@@ -114,6 +116,12 @@ public class CRMService {
         entityManager.persist(company);
         customerLogger.info("company added: customer id: " + company.getId());
         return company;
+    }
+
+    @Transactional
+    @WebMethod(exclude = true)
+    public OCforwardingCompany getForwardingCompanyById(Long id) {
+        return entityManager.find(OCforwardingCompany.class, id);
     }
 
 }

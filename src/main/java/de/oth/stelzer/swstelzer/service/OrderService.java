@@ -222,7 +222,7 @@ public class OrderService {
     @Transactional
     @WebMethod(exclude = true)
     private OCforwardingCompany getForwardingCompanyById(Long id) {
-        return entityManager.find(OCforwardingCompany.class, id);
+        return crmService.getForwardingCompanyById(id);
     }
 
     @Transactional
