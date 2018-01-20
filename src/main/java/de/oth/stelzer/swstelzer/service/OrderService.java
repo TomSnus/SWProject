@@ -138,7 +138,7 @@ public class OrderService {
             //Create Attributes of order
             OCcustomer customer = crmService.getCustomerById(orderDTO.getCustomerId());
             OCfuel fuel = this.getFuelByType(orderDTO.getFuelType());
-            OCforwardingCompany fwCompany = this.getForwardingCompanyById(43l);
+            OCforwardingCompany fwCompany = crmService.getForwardingCompanyById(43l);
             Date dateTime = new Date();
             OCstatus status = OCstatus.PROCESSING;
             String statusDescription = status.name();
@@ -217,12 +217,6 @@ public class OrderService {
         order.setStatusDescription(statusDesc);
         entityManager.merge(order);
         orderLogger.info("Status updated. Order id: " + order.getId());
-    }
-
-    @Transactional
-    @WebMethod(exclude = true)
-    private OCforwardingCompany getForwardingCompanyById(Long id) {
-        return crmService.getForwardingCompanyById(id);
     }
 
     @Transactional
