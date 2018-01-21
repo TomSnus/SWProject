@@ -181,7 +181,7 @@ public class OrderService {
     @WebMethod(exclude = true)
     public Collection<OCorder> getAllOrders() {
         TypedQuery query = entityManager.createNamedQuery("OCorder.getAll", OCorder.class);
-        return query.setMaxResults(20).getResultList();
+        return query.setMaxResults(50).getResultList();
     }
 
     /**

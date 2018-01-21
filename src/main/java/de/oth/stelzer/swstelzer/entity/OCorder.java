@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
  */
 @NamedQueries({
     @NamedQuery(name = "OCorder.getAll",
-            query = "SELECT o FROM OCorder o order by o.orderDate desc")
+            query = "SELECT o FROM OCorder o order by o.transportId desc")
     ,
     @NamedQuery(name = "OCorder.getStatus",
             query = "SELECT o FROM OCorder o WHERE o.transportId=:queryParam")
