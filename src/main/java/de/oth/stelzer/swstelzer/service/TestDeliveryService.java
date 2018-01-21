@@ -23,7 +23,7 @@ import javax.xml.datatype.DatatypeFactory;
 import de.oth.stelzer.swstelzer.delivery.Status;
 
 /**
- * 
+ *
  * Class for Test purposes, in case Partnerproject is not online
  *
  * @author Tom
@@ -66,9 +66,8 @@ public class TestDeliveryService implements IDeliveryService, Serializable {
             deliveryOrder.setId(1337);
         } catch (DatatypeConfigurationException ex) {
             Logger.getLogger(TestDeliveryService.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            return deliveryOrder;
         }
+        return deliveryOrder;
     }
 
     Status getDeliveryStatus(DeliveryOrder dOrder) {

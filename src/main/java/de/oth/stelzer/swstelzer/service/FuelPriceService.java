@@ -7,6 +7,7 @@ package de.oth.stelzer.swstelzer.service;
 
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
+import de.oth.stelzer.swstelzer.resources.qualifier.OptionOrder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,7 +29,7 @@ public class FuelPriceService {
     OrderService oService;
     
     @Inject
-    @OptionCustomer
+    @OptionOrder
     private Logger orderLogger;
      
     private Random rng = new Random();

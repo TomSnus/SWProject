@@ -16,7 +16,7 @@ import de.oth.stelzer.swstelzer.delivery.OrderServiceService;
 import de.oth.stelzer.swstelzer.delivery.Status;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
 import de.oth.stelzer.swstelzer.resources.Environment;
-import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
+import de.oth.stelzer.swstelzer.resources.qualifier.OptionOrder;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +35,7 @@ public class OrderStatusService {
     OrderService oService;
     
     @Inject
-    @OptionCustomer
+    @OptionOrder
     private Logger orderLogger;
      
     @Inject
@@ -56,7 +56,7 @@ public class OrderStatusService {
                 .stream()
                 .filter(p -> !p.getStatus().equals(OCstatus.FINISHED))
                 .collect(Collectors.toList());
-        try { // Call Web Service Operation
+        try { 
             de.oth.stelzer.swstelzer.delivery.OrderService port = service.getOrderServicePort();
             de.oth.stelzer.swstelzer.delivery.DeliveryOrder dOrder = new de.oth.stelzer.swstelzer.delivery.DeliveryOrder();
             for (OCorder order : orderList) {
@@ -76,8 +76,7 @@ public class OrderStatusService {
                 orderLogger.info("Status updated. order id: " + order.getId() + " old status: "+ order.getStatus() + " new status: " + result.name());
             }
         } catch (Exception ex) {
-            orderLogger.error("Could not receive Status of order.");
-            throw new RuntimeException("Error: Could not receive Order Status "+ex.getMessage(), ex);
+            orderLogger.error("Could not receive Status of order. Exception: " + ex.getMessage());
         }
 
     }

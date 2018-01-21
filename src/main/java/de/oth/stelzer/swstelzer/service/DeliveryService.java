@@ -12,11 +12,14 @@ import de.oth.stelzer.swstelzer.delivery.Product;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.iface.IDeliveryService;
 import de.oth.stelzer.swstelzer.resources.Helper;
+import de.oth.stelzer.swstelzer.resources.qualifier.OptionOrder;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.jws.WebService;
 import javax.transaction.Transactional;
 import javax.xml.ws.WebServiceRef;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -29,6 +32,10 @@ public class DeliveryService implements IDeliveryService, Serializable {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/SWJosefIlg-0.1/OrderService.wsdl")
     private de.oth.stelzer.swstelzer.delivery.OrderServiceService service;
 
+    @Inject
+    @OptionOrder
+    private Logger orderLogger;
+
     /**
      *
      * @param customer
@@ -40,7 +47,7 @@ public class DeliveryService implements IDeliveryService, Serializable {
     public DeliveryOrder createDeliveryorder(OCcustomer customer, OrderDTO orderDTO) {
 
         DeliveryOrder result = null;
-        try { 
+        try {
             de.oth.stelzer.swstelzer.delivery.OrderService port = service.getOrderServicePort();
             // Set Attributes
             DeliveryOrder deliveryOrder = new DeliveryOrder();
@@ -57,13 +64,13 @@ public class DeliveryService implements IDeliveryService, Serializable {
             p.setAmountLiter((float) orderDTO.getAmount());
             p.setFuelType(orderDTO.getFuelType());
             deliveryOrder.setProduct(p);
-            
+
             //Send Deliveryorder to Partner
             result = port.orderTransport(deliveryOrder);
 
             System.out.println("Result = " + result);
         } catch (Exception ex) {
-            System.out.println("Could not Create order " + ex.getMessage());
+            orderLogger.error("Could not Create order " + ex.getMessage());
         }
         return result;
 

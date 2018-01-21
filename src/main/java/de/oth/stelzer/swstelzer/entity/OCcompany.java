@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * MappedSuperclass for the Attributes name and address
  * @author Tom
  */
 @MappedSuperclass

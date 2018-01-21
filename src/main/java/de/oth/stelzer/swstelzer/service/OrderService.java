@@ -12,7 +12,7 @@ import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
 import de.oth.stelzer.swstelzer.resources.Environment;
-import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
+import de.oth.stelzer.swstelzer.resources.qualifier.OptionOrder;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +41,7 @@ public class OrderService {
     private EntityManager entityManager;
     
     @Inject
-    @OptionCustomer
+    @OptionOrder
     private Logger orderLogger;
         
     @Inject
@@ -181,7 +181,7 @@ public class OrderService {
     @WebMethod(exclude = true)
     public Collection<OCorder> getAllOrders() {
         TypedQuery query = entityManager.createNamedQuery("OCorder.getAll", OCorder.class);
-        return query.getResultList();
+        return query.setMaxResults(20).getResultList();
     }
 
     /**
