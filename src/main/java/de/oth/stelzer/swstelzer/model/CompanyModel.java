@@ -9,6 +9,7 @@ import de.oth.stelzer.swstelzer.entity.OCaddress;
 import de.oth.stelzer.swstelzer.entity.OCcompany;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
+import de.oth.stelzer.swstelzer.iface.ICRMService;
 import de.oth.stelzer.swstelzer.service.CRMService;
 import java.io.Serializable;
 import java.util.Collection;
@@ -37,7 +38,7 @@ public class CompanyModel implements Serializable {
     private Map<? extends OCcompany, Boolean> checked = new HashMap<>();
 
     @Inject
-    private CRMService crmService;
+    private ICRMService crmService;
 
     public Collection<OCcustomer> getAllCustomers() {
         return this.crmService.getAllCustomers();
