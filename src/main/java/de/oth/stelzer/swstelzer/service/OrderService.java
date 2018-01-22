@@ -11,6 +11,7 @@ import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
+import de.oth.stelzer.swstelzer.iface.IOrderService;
 import de.oth.stelzer.swstelzer.resources.Environment;
 import de.oth.stelzer.swstelzer.resources.qualifier.OptionOrder;
 import java.util.Collection;
@@ -33,7 +34,7 @@ import org.apache.logging.log4j.Logger;
  */
 @WebService(serviceName = "OrderService")
 @RequestScoped
-public class OrderService {
+public class OrderService implements IOrderService{
 
     Environment environment = TestDeliveryService.environment;
 
@@ -60,6 +61,7 @@ public class OrderService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public OCfuel getFuelByType(String ft) {
         String queryParam = ft;
         TypedQuery query = entityManager.createNamedQuery("OCfuel.getSingleFuel", OCfuel.class);
@@ -74,6 +76,7 @@ public class OrderService {
      * @return Collection, containing all Fuels
      */
     @Transactional
+    @Override
     public Collection<OCfuel> getAllFuels() {
         TypedQuery query = entityManager.createNamedQuery("OCfuel.getAll", OCfuel.class);
         List<OCfuel> fuelList = query.getResultList();
@@ -87,6 +90,7 @@ public class OrderService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public void insertFuel(OCfuel fuel) {
         entityManager.persist(fuel);
         orderLogger.info("Fuel added: Fuel id: " + fuel.getId() + " Type: " + fuel.getFuelType());
@@ -99,6 +103,7 @@ public class OrderService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public void updateFuelPrice(OCfuel fuel) {
         entityManager.merge(fuel);
         orderLogger.info("Fuelprice changed: Fuel id: " + fuel.getId());
@@ -110,6 +115,7 @@ public class OrderService {
      * @return Fuel selected by DTO
      */
     @Transactional
+    @Override
     public OCfuel getFuelByDTO(FuelDTO fdto) {
         List<OCfuel> fuelList = null;
         try {
@@ -132,6 +138,7 @@ public class OrderService {
      * @return order
      */
     @Transactional
+    @Override
     public OCorder createOrder(@WebParam(name = "orderDTO") OrderDTO orderDTO) {
         OCorder order = new OCorder();
         try {
@@ -179,6 +186,7 @@ public class OrderService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public Collection<OCorder> getAllOrders() {
         TypedQuery query = entityManager.createNamedQuery("OCorder.getAll", OCorder.class);
         return query.setMaxResults(50).getResultList();
@@ -191,6 +199,7 @@ public class OrderService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public OCorder getStatusDescription(long transportId) {
         OCorder order = null;
         try {
@@ -212,6 +221,7 @@ public class OrderService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public void updateStatus(OCorder order, OCstatus status, String statusDesc) {
         order.setStatus(status);
         order.setStatusDescription(statusDesc);
@@ -232,10 +242,10 @@ public class OrderService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public void removeFuel(OCfuel item) {
         item = entityManager.merge(item);
         entityManager.remove(item);
         orderLogger.info("Fuel removed. Fuel id: " + item.getId());
     }
-
 }
