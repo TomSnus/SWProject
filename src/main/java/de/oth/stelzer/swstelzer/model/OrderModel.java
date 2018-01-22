@@ -10,6 +10,7 @@ import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
+import de.oth.stelzer.swstelzer.iface.IOrderService;
 import de.oth.stelzer.swstelzer.service.OrderService;
 import java.io.Serializable;
 import java.util.Collection;
@@ -40,7 +41,7 @@ public class OrderModel implements Serializable {
     private String errorMsg;
 
     @Inject
-    private OrderService orderService;
+    private IOrderService orderService;
     private String statusText;
 
     public Collection<OCorder> allOrders() {
@@ -122,7 +123,7 @@ public class OrderModel implements Serializable {
         this.forwardingCompany = forwardingCompany;
     }
 
-    public OrderService getOrderService() {
+    public IOrderService getOrderService() {
         return orderService;
     }
 

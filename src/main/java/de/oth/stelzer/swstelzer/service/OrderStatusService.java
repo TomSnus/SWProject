@@ -5,6 +5,7 @@
  */
 package de.oth.stelzer.swstelzer.service;
 
+import de.oth.stelzer.swstelzer.iface.IOrderStatusService;
 import de.oth.stelzer.swstelzer.entity.OCorder;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.xml.ws.WebServiceRef;
 import de.oth.stelzer.swstelzer.delivery.OrderServiceService;
 import de.oth.stelzer.swstelzer.delivery.Status;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
+import de.oth.stelzer.swstelzer.iface.IOrderService;
 import de.oth.stelzer.swstelzer.resources.Environment;
 import de.oth.stelzer.swstelzer.resources.qualifier.OptionOrder;
 import java.util.stream.Collectors;
@@ -32,7 +34,7 @@ public class OrderStatusService implements IOrderStatusService{
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/SWJosefIlg-0.1/OrderService.wsdl")
     private OrderServiceService service;
     @Inject
-    OrderService oService;
+    IOrderService oService;
     
     @Inject
     @OptionOrder

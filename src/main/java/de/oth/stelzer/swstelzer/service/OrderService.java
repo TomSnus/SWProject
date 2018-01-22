@@ -11,6 +11,7 @@ import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
 import de.oth.stelzer.swstelzer.entity.OCfuel;
 import de.oth.stelzer.swstelzer.entity.OCorder;
 import de.oth.stelzer.swstelzer.entity.OCstatus;
+import de.oth.stelzer.swstelzer.iface.ICRMService;
 import de.oth.stelzer.swstelzer.iface.IOrderService;
 import de.oth.stelzer.swstelzer.resources.Environment;
 import de.oth.stelzer.swstelzer.resources.qualifier.OptionOrder;
@@ -46,7 +47,7 @@ public class OrderService implements IOrderService{
     private Logger orderLogger;
         
     @Inject
-    CRMService crmService;
+    ICRMService crmService;
 
     @Inject
     DeliveryService delService;

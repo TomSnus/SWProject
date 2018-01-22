@@ -6,7 +6,7 @@
 package de.oth.stelzer.swstelzer.model;
 
 import de.oth.stelzer.swstelzer.entity.OCfuel;
-import de.oth.stelzer.swstelzer.service.OrderService;
+import de.oth.stelzer.swstelzer.iface.IOrderService;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class FuelModel implements Serializable {
     private OCfuel selectedFuel;
 
     @Inject
-    private OrderService orderService;
+    private IOrderService orderService;
 
     public Collection<OCfuel> allFuels() {
         return this.orderService.getAllFuels();
