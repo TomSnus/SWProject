@@ -9,6 +9,7 @@ import de.oth.stelzer.swstelzer.entity.OCaddress;
 import de.oth.stelzer.swstelzer.entity.OCcompany;
 import de.oth.stelzer.swstelzer.entity.OCcustomer;
 import de.oth.stelzer.swstelzer.entity.OCforwardingCompany;
+import de.oth.stelzer.swstelzer.iface.ICRMService;
 import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
 import java.util.Collection;
 import java.util.List;
@@ -26,7 +27,7 @@ import org.apache.logging.log4j.Logger;
  * @author Tom
  */
 @RequestScoped
-public class CRMService {
+public class CRMService implements ICRMService{
 
     @PersistenceContext(unitName = "SWStelzer_pu")
     private EntityManager entityManager;
@@ -42,6 +43,7 @@ public class CRMService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public OCcustomer getCustomerById(Long id) {
         return entityManager.find(OCcustomer.class, id);
     }
@@ -52,6 +54,7 @@ public class CRMService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public List<OCcustomer> getAllCustomers() {
         TypedQuery<OCcustomer> query = entityManager.createNamedQuery("OCcustomer.select", OCcustomer.class);
         List<OCcustomer> list = query.getResultList();
@@ -66,6 +69,7 @@ public class CRMService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public void removeCustomer(OCcustomer customer) {
         customer = entityManager.merge(customer);
         OCaddress address = entityManager.merge(customer.getAddress());
@@ -82,6 +86,7 @@ public class CRMService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public Collection<OCforwardingCompany> getAllForwardingCompanies() {
         TypedQuery<OCforwardingCompany> query = entityManager.createNamedQuery("OCforwardingCompany.select", OCforwardingCompany.class);
         List<OCforwardingCompany> list = query.getResultList();
@@ -95,6 +100,7 @@ public class CRMService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public void removeForwardingCompany(OCforwardingCompany fwc) {
         fwc = entityManager.merge(fwc);
         OCaddress address = entityManager.merge(fwc.getAddress());
@@ -112,6 +118,7 @@ public class CRMService {
      */
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public OCcompany addCompany(OCcompany company) {
         entityManager.persist(company);
         customerLogger.info("company added: customer id: " + company.getId());
@@ -120,6 +127,7 @@ public class CRMService {
 
     @Transactional
     @WebMethod(exclude = true)
+    @Override
     public OCforwardingCompany getForwardingCompanyById(Long id) {
         return entityManager.find(OCforwardingCompany.class, id);
     }
