@@ -25,7 +25,7 @@ import org.apache.logging.log4j.Logger;
  * @author Tom
  */
 @Singleton
-public class OrderStatusService {
+public class OrderStatusService implements IOrderStatusService{
 
     Environment environment = TestDeliveryService.environment;
 
@@ -50,6 +50,7 @@ public class OrderStatusService {
      * Standard Status for shipped orders = SHIPPED
      */
     @Schedule(second="*/60", minute = "*", hour="*", persistent = false)
+    @Override
     public void updateOrderStatus() {
         List<OCorder> orderList = new ArrayList<>(oService.getAllOrders());
         orderList = orderList

@@ -6,7 +6,7 @@
 package de.oth.stelzer.swstelzer.service;
 
 import de.oth.stelzer.swstelzer.entity.OCfuel;
-import de.oth.stelzer.swstelzer.resources.qualifier.OptionCustomer;
+import de.oth.stelzer.swstelzer.iface.IFuelPriceService;
 import de.oth.stelzer.swstelzer.resources.qualifier.OptionOrder;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
  * @author Tom
  */
 @Singleton
-public class FuelPriceService {
+public class FuelPriceService implements IFuelPriceService{
     
     @Inject
     OrderService oService;
@@ -38,6 +38,7 @@ public class FuelPriceService {
      * Chaning Price every 10 min to random value between 0.5 and 2.0
      */
     @Schedule(minute="*/10", hour="*", persistent=false)
+    @Override
     public void changeFuelPrice() {
         List<OCfuel> fuelList = new ArrayList<>(oService.getAllFuels());
         Double newPrice = ThreadLocalRandom.current().nextDouble(0.5,2.0); 
